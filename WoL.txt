@@ -1,0 +1,46 @@
+s = '74-d0-2b-27-cb-25'
+
+rez = ''
+for i in range(0, len(s)):
+    if (ord(s[i]) in range(48, 58)) or (ord(s[i]) in range(65, 91)) or (ord(s[i]) in range(97, 123)):
+       rez = rez + s[i]
+_______________________________________________________________________________________
+
+def no_delimiter(s):
+    '''CONVERTING MAS-ADDRESS (VARIABLE s) TO FORMAT WITHOUT DELIMITERS:'''
+    s = s.strip()
+    s = s.lower()
+    alpha_n_numbers  = []
+    for i in (range(48, 58), range(65, 91), range(97, 123)): 
+        alpha_n_numbers.extend(map(chr, i))
+    mac = ''
+    for i in s:
+        if i in alpha_n_numbers:
+            mac = mac + i
+    if len(mac) != 12:
+        print('WRONG FORMAT OF MAC-ADDRESS!!!')
+    return(mac)
+
+def mac_to_bytearray(s):
+    '''CONVERTING MAC-ADDRESS (VARIABLE s) TO BYTE ARRAY:'''
+    s = no_delimiter(s)
+    mac = []
+    for i in range(0, len(s), 2):
+        mac = mac + [int(s[i:i+2], 16)]
+    return(mac)
+
+def wol(mac):
+    '''SENDING WAKE-ON-LAN MAGIC-PACKET:'''
+    mac = mac_to_bytearray(mac)
+    import socket
+    wolstart = [0xff] * 8
+    data = wolstart + (mac * 16)
+    client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    client.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    client.bind(("", 7))
+    client.sendto(bytearray(data), ('<broadcast>', 7))
+    print("message sent!")
+    client.close()
+    return(mac)
+
+        

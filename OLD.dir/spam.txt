@@ -1,0 +1,6 @@
+As noted in Creating Reusable Playbooks, include and import statements are very similar, however the Ansible executor engine treats them very differently.
+
+All import* statements are pre-processed at the time playbooks are parsed.
+All include* statements are processed as they are encountered during the execution of the playbook.
+Please refer to Creating Reusable Playbooks for documentation concerning the trade-offs one may encounter when using each type.
+end!!!!!!!!!!!!!!

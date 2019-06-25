@@ -1,0 +1,15 @@
+def rub_usd_buy():
+    course = float(input('INPUT THE COURSE: '))
+    rub = float(input('INPUT THE SUMM OF RUBLES: '))
+    rez = rub / course
+    print('THE REZULT = ', str(rez), '$')
+
+
+
+def rub_usd_buy(course, rub, rez = 0):
+    rez = round(rub / course, 1)
+    print('THE REZULT = ', str(rez), '$')
+    return(round(rez, 2))
+
+def differ(a, b):
+    return(round(((a - b) * 66.5), 2))

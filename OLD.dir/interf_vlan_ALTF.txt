@@ -1,0 +1,17 @@
+ALTF3750-F6-S2-6#sh int desc | i ^Vl
+Vl1                            admin down     down     
+Vl3                            up             up       Avaya_Control_A
+Vl4                            up             up       Avaya_Control_B
+Vl5                            up             up       Avaya_voice
+Vl6                            up             up       Avaya_phone
+Vl60                           up             up       MGMT_ALTF
+Vl100                          up             up       Video_recorder
+Vl128                          up             up       COMMON_SRV
+Vl129                          up             up       Alt_Users
+Vl132                          up             up       Auditors
+Vl264                          up             up       Alt_Users_(static)
+Vl450                          down           down     
+Vl453                          up             up       BB_RTR2-Core_(to_RCHD)
+Vl454                          up             up       BB_RTR1-Core_(to_RCHD)
+Vl461                          up             up       BB_IB
+

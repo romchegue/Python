@@ -1,0 +1,55 @@
+# Вывод таблицы "Printable Characters" ANSII:
+for i in range(32, 127, 1):
+    line = str(i) + ' --- ' + chr(i)
+    if len(str(i)) == 2:
+        line = '0' + str(i) + ' --- ' + chr(i)
+    print(line)
+################################################################################################################
+
+def dec_to_bin(x):
+    """dec_to_bin(x) ---> decimal number x to string of 8 bit - str8bit"""
+    str8bit = ''
+    """Transform decimal number x to binary number in string format:"""
+    while x != 0:
+        if x % 2 == 0:
+            str8bit = '0' + str8bit
+        else:
+            str8bit = '1' + str8bit
+        x = x // 2
+    """Transform string variable str8bit into the 8-characters length:"""
+    while len(str8bit) < 8:
+        str8bit = '0' + str8bit
+    return(str8bit)
+
+def bin_to_dec(L):
+    """bin_to_dec(L) ---> str8bit to decimal number x"""
+    x = 0
+    j = 0
+    L = list(L)
+    L.reverse()
+    for i in L:
+        x = x + int(i) * (2 ** j)
+        j += 1
+    return(x)
+
+def string_from_bit_seq(dec_list):
+    s = ''
+    for i in dec_list:
+        s = s + chr(i)
+    return(s)
+
+s = input('Input string with ANSII printable characters: ')
+
+chr_list = [ord(chr_list) for chr_list in s]
+bit_list = [dec_to_bin(i) for i in chr_list]
+dec_list = [bin_to_dec(i) for i in bit_list]
+string_from_bit_seq(dec_list)
+
+
+    
+    
+
+
+
+  
+

@@ -1,0 +1,22 @@
+def season(n):
+    if n >= 1 and n <= 12:
+            d = {1: 'winter', 2: 'winter', 12: 'winter',
+                3: 'spring', 4: 'spring', 5: 'spring',
+                6: 'summer', 7: 'summer', 8: 'summer',
+                9: 'autumn', 10: 'autumn', 11: 'autumn'}
+            return d[n]
+    else:
+            return 'Enter a number of a mounth [1 - 12]'
+    
+	
+	
+"""SOLUTION:"""	
+def season(month):
+    if month in (1, 2, 12):
+        return 'winter'
+    elif month in (3, 4, 5):
+        return 'summer'
+    elif month in (6, 7, 8):
+        return 'autumn'
+    elif month in (9, 10, 11):
+        return 'autumn'

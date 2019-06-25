@@ -1,0 +1,34 @@
+<Instance of Sub, address 139839990937528:
+	name _ListInherited__attrnames=_METHOD_
+	name __class__=<>
+	name __delattr__=<>
+	name __dict__=<>
+	name __dir__=<>
+	name __doc__=<>
+	name __eq__=<>
+	name __format__=<>
+	name __ge__=<>
+	name __getattribute__=<>
+	name __gt__=<>
+	name __hash__=<>
+	name __init__=<>
+	name __init_subclass__=<>
+	name __le__=<>
+	name __lt__=<>
+	name __module__=<>
+	name __ne__=<>
+	name __new__=<>
+	name __reduce__=<>
+	name __reduce_ex__=<>
+	name __repr__=<>
+	name __setattr__=<>
+	name __sizeof__=<>
+	name __str__=<>
+	name __subclasshook__=<>
+	name __weakref__=<>
+	name data1=spam
+	name data2=eggs
+	name data3=42
+	name ham=_METHOD_
+	name spam=_METHOD_
+>

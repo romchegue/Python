@@ -1,0 +1,15 @@
+def bank(a, years):
+    i = 0
+    while i < years:
+        a *= 1.1
+        i += 1
+    a = round(a, 3)
+    return(a)
+
+
+
+"""SOLUTION:"""
+def bank(a, years):
+    for years in range(years):
+        a *= 1.1
+    return(a)

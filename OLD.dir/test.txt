@@ -1,0 +1,668 @@
+Traceback (most recent call last):
+  File "testmixin.py", line 20, in <module>
+    print(X) # Вызовет подмешанный метод __str__
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+  File "/home/roma/PYTHON3/lister.py", line 59, in __repr__
+    self.__attrnames()) # Список пар name=value
+  File "/home/roma/PYTHON3/lister.py", line 66, in __attrnames
+    result += '\tname %s=%s\n' % (attr, getattr(self, attr))
+RecursionError: maximum recursion depth exceeded

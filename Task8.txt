@@ -1,0 +1,11 @@
+def XOR_cipher(str, key):
+    i = 0
+    rez = ''
+    
+    while i < len(str):
+        rez += chr(ord(str[i]) ^ ord(key[i % len(key)]))
+        i += 1
+    
+    return(rez)
+    
+    

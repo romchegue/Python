@@ -1,0 +1,10 @@
+def bd(x):
+    t = len(bin(x)[2:]) - 1
+    rez = 0
+    print(str(x) + ' = ' + bin(x)[2:])
+    for i in bin(x)[2:]:
+        rez = rez + int(i) * (2 ** t)
+        t -= 1
+    print(rez)
+
+

@@ -1,0 +1,128 @@
+S = '''
+object network vm-dbo-www-01
+ nat (dmz_web,INET) static 91.223.239.8 service tcp https https 
+object network vm-ns2
+ nat (dmz_web,INET) static 91.223.239.13
+object network vm-ocs-edge
+ nat (dmz_web,INET) static 91.223.239.50
+object network vm-sobinsite
+ nat (dmz_web,INET) static 91.223.239.49
+object network vm-dbo-www-03
+ nat (dmz_web,INET) static 91.223.239.29
+object network vm-dbo-www-02
+ nat (dmz_web,INET) static 91.223.239.25
+object network vm-citrix
+ nat (dmz_web,INET) static 91.223.239.22
+object network vm-wbc_https
+ nat (dmz_web,INET) static 91.223.239.7 service tcp https https 
+object network vm-mx2
+ nat (dmz_web,INET) static 91.223.239.9
+object network vm-mx1
+ nat (dmz_web,INET) static 91.223.239.14
+object network vm-citrix-rz
+ nat (dmz_web,INET) static 91.223.239.4
+object network vm-mail-owa
+ nat (LAN,INET) static 91.223.239.16
+object network vm-sobinnedvi
+ nat (dmz_web,INET) static 91.223.239.10
+object network ns
+ nat (dmz_web,INET) static 91.223.239.35
+object network VIPnet1
+ nat (dmz_web,INET) static 91.223.239.69
+object network vm-tcpagent
+ nat (DMZ_SMAIL,INET) static 91.223.239.47 service tcp 2500 2500 
+object network vm-dbo-rts-rz
+ nat (any,INET) dynamic interface
+object network vm-dbo-rts
+ nat (any,INET) dynamic interface
+object network vm-egc-app
+ nat (GIS-GMP,GIS-GMP) dynamic 192.168.23.20
+object network vm-usergsate
+ nat (dmz_web,INET) static 91.223.239.95
+object network vm-wbc_http
+ nat (dmz_web,INET) static 91.223.239.7 service tcp www www 
+object network nice_1
+ nat (LAN,INET) static 91.223.239.94 service tcp 3389 3389 
+object network nice_2
+ nat (LAN,INET) static 91.223.239.94 service tcp 3389 3390 
+object network nice_3
+ nat (LAN,INET) static 91.223.239.94 service tcp 3389 3391 
+object network avaya_cms
+ nat (LAN,INET) static 91.223.239.94 service tcp ssh ssh 
+object network vm-neoflex
+ nat (dmz_web,INET) static 91.223.239.76 dns
+object network Inet_10
+ nat (any,INET) dynamic interface dns
+object network Inet_172
+ nat (any,INET) dynamic interface
+object network Inet_192
+ nat (any,INET) dynamic interface
+object network vpn-box_bfk
+ nat (dmz_bfk_box,INET) static 91.223.239.48
+object network egc-app-cft
+ nat (LAN,GIS-GMP) dynamic 192.168.23.20
+object network egc-app-cft-tst
+ nat (LAN,GIS-GMP) dynamic 192.168.23.20
+object network IB_172.24.79.21
+ nat (LAN,INET) static 91.223.239.97 service tcp 3389 59631 
+object network vm-dbo-web
+ nat (dmz_web,INET) static 91.223.239.11
+object network rd-gateway-test
+ nat (LAN,INET) static rd-gateway service tcp https https 
+'''
+
+SL = S.splitlines()
+
+NATKEYS = []
+for i in SL:
+    if 'object network ' in i:
+        NATKEYS.append(i[15:])
+
+NATVALUES = []		
+for i in SL:
+    if ' nat ' in i:
+        NATVALUES.append(i)
+
+NAT = dict(zip(NATKEYS, NATVALUES))	
+
+for i in sorted(NAT.keys()):
+    print(i.ljust(20) + ' ---> ' + NAT[i])
+
+=============================================================================================================================
+
+IB_172.24.79.21      --->  nat (LAN,INET) static 91.223.239.97 service tcp 3389 59631 
+Inet_10              --->  nat (any,INET) dynamic interface dns
+Inet_172             --->  nat (any,INET) dynamic interface
+Inet_192             --->  nat (any,INET) dynamic interface
+VIPnet1              --->  nat (dmz_web,INET) static 91.223.239.69
+avaya_cms            --->  nat (LAN,INET) static 91.223.239.94 service tcp ssh ssh 
+egc-app-cft          --->  nat (LAN,GIS-GMP) dynamic 192.168.23.20
+egc-app-cft-tst      --->  nat (LAN,GIS-GMP) dynamic 192.168.23.20
+nice_1               --->  nat (LAN,INET) static 91.223.239.94 service tcp 3389 3389 
+nice_2               --->  nat (LAN,INET) static 91.223.239.94 service tcp 3389 3390 
+nice_3               --->  nat (LAN,INET) static 91.223.239.94 service tcp 3389 3391 
+ns                   --->  nat (dmz_web,INET) static 91.223.239.35
+rd-gateway-test      --->  nat (LAN,INET) static rd-gateway service tcp https https 
+vm-citrix            --->  nat (dmz_web,INET) static 91.223.239.22
+vm-citrix-rz         --->  nat (dmz_web,INET) static 91.223.239.4
+vm-dbo-rts           --->  nat (any,INET) dynamic interface
+vm-dbo-rts-rz        --->  nat (any,INET) dynamic interface
+vm-dbo-web           --->  nat (dmz_web,INET) static 91.223.239.11
+vm-dbo-www-01        --->  nat (dmz_web,INET) static 91.223.239.8 service tcp https https 
+vm-dbo-www-02        --->  nat (dmz_web,INET) static 91.223.239.25
+vm-dbo-www-03        --->  nat (dmz_web,INET) static 91.223.239.29
+vm-egc-app           --->  nat (GIS-GMP,GIS-GMP) dynamic 192.168.23.20
+vm-mail-owa          --->  nat (LAN,INET) static 91.223.239.16
+vm-mx1               --->  nat (dmz_web,INET) static 91.223.239.14
+vm-mx2               --->  nat (dmz_web,INET) static 91.223.239.9
+vm-neoflex           --->  nat (dmz_web,INET) static 91.223.239.76 dns
+vm-ns2               --->  nat (dmz_web,INET) static 91.223.239.13
+vm-ocs-edge          --->  nat (dmz_web,INET) static 91.223.239.50
+vm-sobinnedvi        --->  nat (dmz_web,INET) static 91.223.239.10
+vm-sobinsite         --->  nat (dmz_web,INET) static 91.223.239.49
+vm-tcpagent          --->  nat (DMZ_SMAIL,INET) static 91.223.239.47 service tcp 2500 2500 
+vm-usergsate         --->  nat (dmz_web,INET) static 91.223.239.95
+vm-wbc_http          --->  nat (dmz_web,INET) static 91.223.239.7 service tcp www www 
+vm-wbc_https         --->  nat (dmz_web,INET) static 91.223.239.7 service tcp https https 
+vpn-box_bfk          --->  nat (dmz_bfk_box,INET) static 91.223.239.48
+

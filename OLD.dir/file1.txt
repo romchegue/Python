@@ -1,0 +1,15 @@
+QQQQQ
+ddddd
+RRRRR
+ttttt
+55555
+hhhhh
+jjjjj
+
+
+0
+None
+[]
+{}
+(,)
+set()

@@ -1,0 +1,28 @@
+ALTF3750-F6-S2-6#sh vlan brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+3    Avaya_control_A                  active    
+4    Avaya_control_B                  active    
+5    Avaya_voice                      active    
+6    Avaya_phone                      active    
+60   MGMT_ALTF                        active    Gi3/0/8, Gi4/0/8
+78   UIB                              active    
+100  Video_recorder                   active    
+128  Srv_ALTF                         active    
+129  Srv_ALTF1                        active    
+132  Audit                            active    
+264  User_ALTF2                       active    
+453  BB_RTR2-Core                     active    Gi3/0/1
+454  BB_RTR1-Core                     active    Gi4/0/2
+455  BB_RTR2-ASA                      active    Gi3/0/19, Gi4/0/19, Gi4/0/22
+456  BB_RTR1-ASA                      active    Gi3/0/15, Gi3/0/22, Gi4/0/15
+457  Ch_to_GO_ReTN.net                active    Gi3/0/20, Gi4/0/20, Gi4/0/21
+458  Ch_to_GO_BEELINE                 active    Gi3/0/17, Gi3/0/21, Gi4/0/17
+461  BB_UIB                           active    Gi3/0/16
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+
