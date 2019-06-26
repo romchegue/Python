@@ -1,55 +1,69 @@
-p nat inside source static tcp 172.24.125.80 1494 10.199.45.21 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.80 2598 10.199.45.21 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.141 443 10.199.45.22 443 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.80 443 10.199.45.23 443 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.80 443 10.199.45.24 443 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.81 1494 10.199.45.25 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.81 2598 10.199.45.25 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.82 1494 10.199.45.26 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.82 2598 10.199.45.26 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.71 1494 10.199.45.27 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.71 2598 10.199.45.27 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.84 1494 10.199.45.28 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.84 2598 10.199.45.28 2598 redundancy abr extendable
-ip nat inside source static tcp 192.168.180.20 20255 10.199.45.29 20255 redundancy abr extendable
-ip nat inside source static tcp 172.24.11.211 4020 10.199.45.30 4020 redundancy abr extendable
-ip nat inside source static tcp 192.168.224.15 1521 10.199.45.36 1521 redundancy abr extendable
-ip nat inside source static 192.168.224.15 10.199.45.36
-ip nat inside source static tcp 192.168.181.40 1527 10.199.45.43 1527 redundancy abr extendable
-ip nat inside source static tcp 192.168.205.49 1494 10.199.45.44 1494 redundancy abr extendable
-ip nat inside source static tcp 192.168.205.49 2598 10.199.45.44 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.68 1494 10.199.45.45 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.68 2598 10.199.45.45 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.86 1494 10.199.45.46 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.86 2598 10.199.45.46 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.69 1494 10.199.45.47 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.69 2598 10.199.45.47 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.67 1494 10.199.45.48 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.67 2598 10.199.45.48 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.167 1494 10.199.45.49 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.167 2598 10.199.45.49 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.84 1494 10.199.45.50 1494 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.84 2598 10.199.45.50 2598 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.57 20 10.199.45.51 20 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.57 21 10.199.45.51 21 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.57 445 10.199.45.51 445 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.195 445 10.199.45.52 445 redundancy abr extendable
-ip nat inside source static tcp 172.24.60.19 80 10.199.45.53 80 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.55 22 10.199.45.54 22 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.55 80 10.199.45.54 80 redundancy abr extendable
-ip nat inside source static tcp 172.24.125.61 445 10.199.45.55 445 redundancy abr extendable
-ip nat inside source static tcp 172.24.11.214 3152 10.199.45.56 3152 redundancy abr extendable
-ip nat inside source static tcp 172.24.60.48 443 10.199.45.57 443 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.70 443 10.199.45.58 443 redundancy abr extendable
-ip nat inside source static tcp 172.26.4.57 3389 10.199.45.59 3389 redundancy abr extendable
-ip nat inside source static tcp 172.24.60.79 1433 10.199.45.60 1433 redundancy abr extendable
-ip nat inside source static tcp 192.168.195.15 3389 10.199.45.61 3389 redundancy abr extendable
-ip nat inside source static tcp 192.168.181.49 22 10.199.45.62 22 redundancy abr extendable
-ip nat inside source static tcp 192.168.181.49 80 10.199.45.62 80 redundancy abr extendable
-ip nat inside source static tcp 172.24.126.67 1521 10.199.45.63 1521 redundancy abr extendable
-ip nat inside source static tcp 192.168.195.14 22 10.199.45.64 22 redundancy abr extendable
-ip nat inside source static tcp 192.168.195.14 80 10.199.45.64 80 redundancy abr extendable
-ip nat inside source static tcp 192.168.195.13 22 10.199.45.65 22 redundancy abr extendable
-ip nat inside source static tcp 192.168.195.13 80 10.199.45.65 80 redundancy abr extendable
-ip nat inside source static tcp 192.168.195.10 1521 10.199.45.66 1521 redundancy abr extendable
-
+1 default
+8 DMZ_Usergate_Untrust
+10 ASA_DMZ_failover
+11 Audit_CB
+22 Inet_AS43000
+24 ABR_employees
+25 Audit_PWC
+30 ABR_10Mbps
+45 BEELINE
+48 ReTN.net
+86 User_Dealers
+97 Srv_GO_60-1
+98 Srv_GO_60-2
+99 Srv_GO_60-3
+100 Srv_GO_60-4
+112 UPS_GO
+115 WiFi_Priv
+116 WiFi_User
+117 WiFi_MGMT
+129 Device_GO
+148 DMZ_BFK_VPN-box
+150 Audit
+151 Guest
+164 User_GO1
+165 User_GO2
+166 User_GO3
+167 MGMT_GO
+173 Avaya_control_A
+174 Avaya_control_B
+175 Avaya_CLAN&MedPro
+176 Avaya_phone
+181 DMZ_srv_181
+184 DMZ_BFK
+185 DMZ_Tariscope
+186 DMZ_GIS-GMP
+187 DMZ_PayControl
+190 DMZ_test
+193 DMZ_auditfs
+195 DMZ_srv_ABR
+205 Srv_GO_test
+240 VM_MGMT
+246 Srv_GO_125-1
+247 Srv_GO_125-2
+248 Srv_GO_125-3
+249 Srv_GO_UIB
+250 Srv_GO_126-1
+251 Srv_GO_126-2
+252 Srv_GO_126-3
+253 Srv_GO_126-4
+254 Srv_MGMT
+400 RSPAN_ASA
+401 RSPAN_ASA_Inet
+402 RSPAN_TMG
+452 BB_Inet
+453 BB_RTR2_to_ALTF-Core
+454 BB_RTR1_to_ALTF-Core
+455 BB_RTR2_to_ALTF-ASA
+456 BB_RTR1_to_ALTF-ASA
+457 Ch_to_ALTF_ReTN.net
+458 Ch_to_ALTF_BEELINE
+459 BB_CBR
+460 BB_GO
+461 BB_ABRDC_RTR1
+462 BB_ABRDC_RTR2
+628 ABRDC
+758 WAN_MTS_ABRDC
+759 WAN_SEVERN_ABRDC
+765 ABRDC_VIPNET1-RTR1
+766 ABRDC_VIPNET2-RTR2
