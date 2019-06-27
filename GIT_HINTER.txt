@@ -1,0 +1,14 @@
+# There are some helpful Git commands:
+git log --oneline --all --decorate --graph
+git pull origin master
+git push
+git branch --no-merged
+git branch --merged
+git checkout master
+git branch --list
+git fetch origin windows
+git remote -v
+git push origin linux
+git status
+git branch -d
+git mergetool
