@@ -71,31 +71,12 @@ finally:
     print('\nHAPPY END!!!')
 
 
+
+
 try:
-    x = input()
-    y = 1000 + int(x)
-    print(y)
-except (KeyboardInterrupt, ValueError):
-    print('EXCEPTION (KeyboardInterrupt, ValueError)!!!')
-except:
-    print('EXCEPTION!!!')
-finally:
-    print('\nHAPPY END!!!')
-
-
-import time
-x = 1
-while x:
-    try:
-        print('_' * x)
-        x += 1
-        time.sleep(1)
-    except KeyboardInterrupt:
-        f = input('\nDO YOU REALLY WANT TO QUIT? (y/...')
-        if f.lower()[:1] == 'y':
-            print('\nGOOD BYE!!!\n')
-            x = 0
-
+    1 / 0
+except Exception as E:
+    raise TypeError('BAD!') from E
 
  
 
