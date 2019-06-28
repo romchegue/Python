@@ -27,11 +27,15 @@ for func in (raiser0, raiser1, raiser2):
 #############################################################################
 
 class General(Exception): pass
+
 class Specific1(General): pass
+
 class Specific2(General): pass
 
 def raiser0(): raise General()
+
 def raiser1(): raise Specific1()
+
 def raiser2(): raise Specific2()
 
 for func in (raiser0, raiser1, raiser2):
@@ -39,3 +43,14 @@ for func in (raiser0, raiser1, raiser2):
         func()
     except General as X: 
         print('caught:', X.__class__)
+
+
+T = (Specific1, Specific2, General)
+for func in (raiser0, raiser1, raiser2):
+    try:
+        func()
+    except T as X: 
+        print('caught:', X.__class__)
+
+
+
