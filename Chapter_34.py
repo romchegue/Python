@@ -23,6 +23,8 @@ def exceptor1():
 class ExcExplorer:
     cls_tree = []
     def basesDict(class_object, c=0):
+        if c == 0:
+            ExcExplorer.cls_tree = []             # Clear a list of results 
         ExcExplorer.cls_tree.append(class_object)
         print('.' * c + repr(class_object))
         for cls in class_object.__bases__:
@@ -32,24 +34,27 @@ class ExcExplorer:
 
 def lister(x):
     try:
-        ExcExplorer.basesDict(x)
-    except AttributeError as TE:
-        print('caught', TE)
-        res[x] = x.__class__
-        lister(x.__class__)
-    print('res =', res)
-    return res
+        I = ExcExplorer()
+        x.__bases__
+        I.basesDict(x)
+    except AttributeError:
+        import sys
+        print('caught:', sys.exc_info()[0], '\n')
+        I.basesDict(x.__class__)
+    print()
+    return I.cls_tree
 
 
-class ExcExplorer:
-    def __init__(self):
-        self.cls_tree = []
-    cls_tree = []
-    def basesDict(self, clss='self.__class__', c=0):
-        self.cls_tree.append(clss)
-        print('.' * c + repr(clss))
-        for C in self.__class__.__bases__:
-            ExcExplorer.basesDict(self, C, c + 3)
+
+try:
+    import time
+    while True:
+        print('.')
+        time.sleep(1)
+except:
+    print('caught:', sys.exc_info()[0], '\n')
+
+
 
 
 	
