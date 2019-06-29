@@ -12,3 +12,5 @@ git push origin linux
 git status
 git branch -d
 git mergetool
+git push --set-upstream origin master
+
