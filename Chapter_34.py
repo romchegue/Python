@@ -19,7 +19,7 @@ def exceptor1():
 
 
 
-
+###############################
 class ExcExplorer:
     cls_tree = []
     def basesDict(class_object, c=0):
@@ -43,8 +43,7 @@ def lister(x):
         I.basesDict(x.__class__)
     print()
     return I.cls_tree
-
-
+###############################
 
 try:
     import time
@@ -53,6 +52,46 @@ try:
         time.sleep(1)
 except:
     print('caught:', sys.exc_info()[0], '\n')
+
+
+class MyBad(Exception):
+    def __str__(self):
+        return 'Got: {0}\nAlways look on the bright side of life...'.format(self.args)
+
+try:
+    raise MyBad()
+except MyBad as X:
+    print(X)
+
+
+
+class FormatError(Exception):
+    logfile = 'formaterror.txt'
+    def __init__(self, line, file):
+        self.line = line
+        self.file = file
+    def logerror(self):
+        log = open(self.logfile, 'a')
+        print('Error at', self.line, self.line, file=log)
+
+def parser():
+    raise FormatError(40, 'spam.txt')
+
+try:
+    parser()
+except FormatError as exc:
+    exc.logerror()
+
+
+
+
+
+
+
+
+
+
+
 
 
 
