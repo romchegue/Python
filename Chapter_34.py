@@ -19,10 +19,12 @@ def exceptor1():
 
 
 
-
+###############################
 class ExcExplorer:
     cls_tree = []
     def basesDict(class_object, c=0):
+        if c == 0:
+            ExcExplorer.cls_tree = []             # Clear a list of results 
         ExcExplorer.cls_tree.append(class_object)
         print('.' * c + repr(class_object))
         for cls in class_object.__bases__:
@@ -32,24 +34,66 @@ class ExcExplorer:
 
 def lister(x):
     try:
-        ExcExplorer.basesDict(x)
-    except AttributeError as TE:
-        print('caught', TE)
-        res[x] = x.__class__
-        lister(x.__class__)
-    print('res =', res)
-    return res
+        I = ExcExplorer()
+        x.__bases__
+        I.basesDict(x)
+    except AttributeError:
+        import sys
+        print('caught:', sys.exc_info()[0], '\n')
+        I.basesDict(x.__class__)
+    print()
+    return I.cls_tree
+###############################
+
+try:
+    import time
+    while True:
+        print('.')
+        time.sleep(1)
+except:
+    print('caught:', sys.exc_info()[0], '\n')
 
 
-class ExcExplorer:
-    def __init__(self):
-        self.cls_tree = []
-    cls_tree = []
-    def basesDict(self, clss='self.__class__', c=0):
-        self.cls_tree.append(clss)
-        print('.' * c + repr(clss))
-        for C in self.__class__.__bases__:
-            ExcExplorer.basesDict(self, C, c + 3)
+class MyBad(Exception):
+    def __str__(self):
+        return 'Got: {0}\nAlways look on the bright side of life...'.format(self.args)
+
+try:
+    raise MyBad()
+except MyBad as X:
+    print(X)
+
+
+
+class FormatError(Exception):
+    logfile = 'formaterror.txt'
+    def __init__(self, line, file):
+        self.line = line
+        self.file = file
+    def logerror(self):
+        log = open(self.logfile, 'a')
+        print('Error at', self.line, self.line, file=log)
+
+def parser():
+    raise FormatError(40, 'spam.txt')
+
+try:
+    parser()
+except FormatError as exc:
+    exc.logerror()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	
