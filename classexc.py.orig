@@ -24,6 +24,7 @@ for func in (raiser0, raiser1, raiser2):
         import sys
         print('caught:', sys.exc_info()[0])
 
+<<<<<<< HEAD
 
 class General(Exception): pass
 class Specific1(General): pass
@@ -31,7 +32,7 @@ class Specific2(General): pass
 
 def raiser0(): raise General()
 def raiser1(): raise Specific1()
-
+=======
 #############################################################################
 
 class General(Exception): pass
@@ -44,7 +45,7 @@ def raiser0(): raise General()
 
 def raiser1(): raise Specific1()
 
-
+>>>>>>> cd988d9edb37c29dc47b85e02637a956d2265b10
 def raiser2(): raise Specific2()
 
 for func in (raiser0, raiser1, raiser2):
@@ -53,6 +54,8 @@ for func in (raiser0, raiser1, raiser2):
     except General as X: 
         print('caught:', X.__class__)
 
+<<<<<<< HEAD
+=======
 
 T = (Specific1, Specific2, General)
 for func in (raiser0, raiser1, raiser2):
@@ -63,4 +66,4 @@ for func in (raiser0, raiser1, raiser2):
 
 
 
-
+>>>>>>> cd988d9edb37c29dc47b85e02637a956d2265b10

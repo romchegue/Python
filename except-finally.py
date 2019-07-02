@@ -15,3 +15,4 @@ for func in (raise1, noraise, raise2):
             print('caught IndexError')
     finally:
         print('finally run')
+

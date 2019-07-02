@@ -1,0 +1,34 @@
+uncought! <class 'TypeError'> None
+uncought! <class 'IndexError'> SPAM
+uncought! <class 'ZeroDivisionError'> SPAM
+2019-07-02 13:28:12 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:15 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:16 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:16 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:17 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:17 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:17 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:56.338983 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:57.054978 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:57.320501 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:57.512412 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:57.670220 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:57.838297 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:58.032518 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:58.274657 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:58.465888 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:58.915766 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:59.140346 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:59.379354 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:28:59.562598 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:29:00.636912 - FAILED: <class 'ZeroDivisionError'> HELLO WORLD!
+2019-07-02 13:29:07.458788 - FAILED: <class 'TypeError'> HELLO WORLD!
+2019-07-02 13:29:20.350370 - FAILED: <class 'IndexError'> HELLO WORLD!
+2019-07-02 13:29:48.404109 - FAILED: <class 'SyntaxError'> HELLO WORLD!
+2019-07-02 13:29:49.468843 - FAILED: <class 'SyntaxError'> HELLO WORLD!
+2019-07-02 13:29:49.742560 - FAILED: <class 'SyntaxError'> HELLO WORLD!
+2019-07-02 13:29:49.944303 - FAILED: <class 'SyntaxError'> HELLO WORLD!
+2019-07-02 13:29:50.204938 - FAILED: <class 'SyntaxError'> HELLO WORLD!
+2019-07-02 14:05:29.009579 - FAILED: <function errmaker at 0x7f62b907c268>(()), ERROR: <class 'Exception'> 
+2019-07-02 14:06:41.238423 - FAILED: <function errmaker at 0x7f62b907c268>((SyntaxError('HELLO WORLD!',),)), ERROR: <class 'SyntaxError'> HELLO WORLD!
+2019-07-02 14:17:10.368953 - FAILED: <function errmaker at 0x7f62b907c268>((ZeroDivisionError('SPAM',),)), ERROR: <class 'ZeroDivisionError'> SPAM
