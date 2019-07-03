@@ -1,5 +1,4 @@
 # There are some helpful Git commands:
-git log --oneline --all --decorate --graph
 git pull origin master
 git push
 git branch --no-merged
@@ -13,4 +12,39 @@ git status
 git branch -d
 git mergetool
 git push --set-upstream origin master
+
+git diff
+git diff --staged # == git diff --cached
+
+git commit
+git commit -m 'commit message'
+git commit -v
+git commit -a - m 'commit message'
+
+git rm <file>
+git reset HEAD <file> # use "git reset HEAD <file>..." to unstage
+git rm -f <file> # If file already changed and staged
+git rm --cached <file> # unstaging <file>, but leaving that in a working directory
+git mv <file_from> <file_to> # rename file
+
+# History of commits:
+git log
+git log -p -2 # -p - differencies, -2 - last 2 commits
+git log --stat # brief statistics for commits
+git log --pretty=oneline # --pretty changes a format of an output. Options: oneline|short|full|fuller|format etc.
+git log --pretty=format:"%h - %an, %ar : %s"
+git log --pretty=format:"%h %s" --graph
+git log --relative-date --abbrev-commit --name-status
+git log --shortstat 
+git log --since=2.weeks # == --after
+git log --since="2 years 1 day 3 minutes ago"
+git log --until # == --before
+git log --author
+git log --grep # ! --all-match - if you would like to change both --author and --grep
+git log -Sfunction_name # !!!shows kust commits that added or removed string -S
+git log --committer --no-merges
+
+# Undo operations
+git commit --amend # remake last commit - new stage file will be added in the last commit
+
 
