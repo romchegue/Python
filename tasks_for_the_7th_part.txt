@@ -1,0 +1,91 @@
+# Task 1. try/except
+
+def oops():
+    raise IndexError
+
+def tryExc():
+    try:
+        oops()
+    except IndexError as E:
+        print('caught', E.__class__)
+
+
+def oops():
+    raise KeyError
+
+
+# Task 2. Exception objects and lists
+
+def oops():
+    raise MyError('SPAM')
+
+class MyError(Exception): pass
+
+def tryExc():
+    try:
+        oops()
+#    except (IndexError, MyError) as E:
+#        print('caught', E.__class__)
+    except IndexError:
+        print('caught IndexError')
+    except MyError as ME:
+        import sys
+        print('caught error:', MyError, ME)        
+    else:
+        print('no error caught...')
+
+# Task 3. Error processing
+
+def safe(func, *args):
+    try:
+        func(*args)
+    except:
+        import sys, traceback
+        print(sys.exc_info())
+        traceback.print_exc()
+
+
+# Task 4. Examples for self-study
+
+    # 4.1. Поиск наибольшего файла в единственном каталоге
+
+import os, glob
+dirname = r'C:\Python30\Lib'
+allsizes = []
+allpy = glob.glob(dirname + os.sep + '*.py')  # /home/roma/Python/*.py
+for filename in allpy:
+    filesize = os.path.getsize(filename)
+    allsizes.append((filesize, filename))
+
+allsizes.sort()
+print(allsizes[:2])
+print(allsizes[-2:])
+
+
+    # 4.2. Поиск наибольшего файла с исходным программным кодом на языке Python в дереве каталогов
+
+import os, sys, pprint
+if sys.platform[:3] == 'win':
+    dirname = r'C:\Users\roman\AppData\Local\Programs\Python\Python37-32'
+else:
+    dirname = '/usr/lib64/python3.6'
+
+allsizes = []
+for (thisDir, subsHere, filesHere) in os.walk(dirname):
+    for filename in filesHere:
+        if filename.endswith('.py'):
+            fullname = os.path.join(thisDir, filename)
+            fullsize = os.path.getsize(fullname)
+            allsizes.append((fullsize, fullname))
+
+allsizes.sort()
+pprint.pprint(allsizes[:2])
+pprint.pprint(allsizes[-2:])
+
+
+
+
+
+
+
+

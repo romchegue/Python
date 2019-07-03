@@ -109,6 +109,9 @@ def printer_with_timer(string='_', fact=1, slp=1):
                 fact = 0
 
 
+def fiix(X): # It is an acronym form "for i in X"
+    for i in X:
+        print(i)
 
 # Self-tests:
 if __name__ == '__main__':
