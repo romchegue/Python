@@ -1,0 +1,445 @@
+# Task 1. Inheritance
+
+class Adder:
+    def __init__(self, value=None):
+        self.data = value
+    def add(self, value):
+        print('Not Implemented')
+    def __add__(self, value):
+        return self.add(value)
+
+
+class ListAdder(Adder):
+    def add(self, value):
+        return self.data + value
+
+
+class DictAdder(Adder):
+    def add(self, value):
+        new = {}
+        for key, val in self.data.items(): new[key] = val
+        for key, val in value.items(): new[key] = val
+        return new
+
+
+class Adder_new:
+    def __init__(self, start=None):
+        self.data = start
+    def __add__(self, value):
+        print('not implemented')
+    def __radd__(self, value):
+        print('not implemented')
+
+class ListAdder_new(Adder_new):
+    def __add__(self, value):
+        return self.data + value
+    def __radd__(self, value):
+        return self.data + value
+
+
+class DictAdder_new(Adder_new):
+    def add(self, value):
+        new = {}
+        for key, val in self.data.items(): new[key] = val
+        for key, val in value.items(): new[key] = val
+        return new
+    __add__=add
+    __radd__=add
+
+
+
+# Task 2. Operator overloading
+class MyList:
+    def meth_print(meth_name, index=None, item=None):
+        log_message = "log message: called {module}.MyList.{method}".format(module=__name__, method=meth_name)
+        if index != None:
+            log_message += ', index = {0}'.format(index)
+        if item != None:
+            log_message += ', \nitem = {0}'.format(item)
+        print('###', log_message, '###')
+    meth_print = staticmethod(meth_print)
+    def __init__(self, value=[]):
+        '''Initialize self ---> self.data = value[:]'''
+        MyList.meth_print(meth_name='__init__', item=value)
+        self.data = []
+        for x in value:        # value can be an any iterable object                
+            self.data.append(x)
+#    def __init__(self, *args, **kwargs):    # ALTERNATIVE
+#        MyList.meth_print(meth_name='__init__', item=(args, kwargs))
+#        self.data = []
+#        for arg in args:
+#            self.data.append(arg)
+#        for val in kwargs.values():
+#            self.data.append(val)
+#        print('{0}.data = {1}'.format(self, self.data))
+    def __getattr__(self, name):     # catch intercepts all accesses to attributes and methods without "__". 
+        MyList.meth_print(meth_name='__getattr__', item=name)
+        return getattr(self.data, name) # Example: append/pop/sort etc.
+    def __repr__(self):
+        MyList.meth_print(meth_name='__repr__')
+        return 'MyList: ' + repr(self.data)
+    def __add__(self, value):
+        MyList.meth_print(meth_name='__add__', item=value)
+        return MyList(self.data + value)
+    def __contains__(self, item):
+        MyList.meth_print(meth_name='__contains__', item=item)
+        return item in self.data
+    def __delitem__(self, index):
+        MyList.meth_print(meth_name='__delitem__', index=index) 
+        del self.data[index]
+    def __eq__(self, value):
+        MyList.meth_print(meth_name='__eq__', item=value) 
+        return self.data == value
+    def __getitem__(self, index):
+        MyList.meth_print(meth_name='__getitem__', index=index)
+        return self.data[index]
+    def __iadd__(self, value):
+        MyList.meth_print(meth_name='__iadd__', item=value)
+        return MyList(self.data + value)
+    def __imul__(self, value):
+        MyList.meth_print(meth_name='__imul__', item=value)
+        return MyList(self.data * value)
+    def __iter__(self):
+        MyList.meth_print(meth_name='__iter__')
+        return iter(self.data)
+    def __len__(self):
+        MyList.meth_print(meth_name='__len__')
+        return len(self.data)
+    def __mul__(self, value):
+        MyList.meth_print(meth_name='__mul__', item=value)
+        return MyList(self.data * value)
+    def __radd__(self, value):
+        MyList.meth_print(meth_name='__radd__', item=value)
+        return MyList(value + self.data)
+    def __reversed__(self):
+        MyList.meth_print(meth_name='__reversed__')
+        return reversed(self.data)
+    def __rmul__(self, value):
+        MyList.meth_print(meth_name='__rmul__', item=value)
+        return MyList(self.data * value)
+    def __setitem__(self, index, value):
+        MyList.meth_print(meth_name='__setitem__', index=index, item=value)
+        self.data[index] = value
+    """
+	def append(self, value):
+        MyList.meth_print(meth_name='append', item=value)
+        self.data.append(value)
+    def clear(self):
+        MyList.meth_print(meth_name='clear')
+        self.data.clear()
+    def copy(self):
+        MyList.meth_print(meth_name='copy')
+        return MyList(self.data[:])
+    def count(self, value):
+        MyList.meth_print(meth_name='count', item=value)
+        return self.data.count(value)		
+    def extend(self, iterable):
+        MyList.meth_print(meth_name='extend', item=iterable)
+        self.data.extend(iterable)
+    def index(self, value, start=0, stop=9223372036854775807): 
+        MyList.meth_print(meth_name='index', index=(start, stop), item=value)
+        return self.data.index(value, start, stop)
+    def insert(self, index, value): 
+        MyList.meth_print(meth_name='insert', index=index, item=value)
+        self.data.insert(index, value)
+    def pop(self, index=-1): 
+        MyList.meth_print(meth_name='pop', index=index)
+        return self.data.pop(index)
+    def remove(self, value):
+        MyList.meth_print(meth_name='remove', item=value)
+        self.data.remove(value)
+    def reverse(self):
+        MyList.meth_print(meth_name='reverse')
+        self.data.reverse()
+    def sort(self, key=None, reverse=False):
+        MyList.meth_print(meth_name='sort', item='key={0}, reverse={1}'.format(key, reverse))
+        self.data.sort(key, reverse)
+    """
+
+
+
+# Task 3. Subclasses
+
+class MyListSub(MyList):   # Inherits class MyList from the task 2
+    calls = 0
+    def __init__(self, value=[]):
+        self.adds = 0
+        MyList.__init__(self, value)
+    def __add__(self, other):
+        MyListSub.calls += 1
+        self.adds += 1
+        return MyList.__add__(self, other)
+    def stats(self):
+        return self.calls, self.adds
+
+
+
+# Task 4. Method of a metaclass
+
+class Meta:
+    def __init__(self, *args, **kwargs):
+        print('args={0}, kwargs={1}'.format(args, kwargs)) 
+        for arg in args: 
+            setattr(self, str(arg), arg)
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+    def __setattr__(self, name, value):
+        print('Set: {0} {1} <--- clalled Meta.__setattr__'.format(name, value))
+        self.__dict__[name] = value     
+    def __getattr__(self, name):
+        print('Object {0} does not have attribute {1} <--- clalled Meta.__getattr__'.format(self, name))
+
+
+
+# Task 5. Set objects
+
+class Set:
+    def __init__(self, value = []): # ???????????
+        self.data = [] # ????????? ???????
+        self.concat(value)
+    def intersect(self, other): # other – ????? ??????????????????
+        res = [] # self – ??????????????? ??????
+        for x in self.data:
+            if x in other: # ??????? ????? ????????
+                res.append(x)
+        return Set(res) # ??????? ????? ????????? Set
+    def union(self, other): # other – ????? ??????????????????
+        res = self.data[:] # ?????????? ??????
+        for x in other: # ???????? ???????? ?? other
+            if not x in res:
+                res.append(x)
+        return Set(res)
+    def concat(self, value): # ???????? value: ??????, Set...
+        for x in value: # ??????? ?????????
+            if not x in self.data:
+                self.data.append(x)
+    def __len__(self): return len(self.data) # len(self)
+    def __getitem__(self, key): return self.data[key] # self[i]
+    def __and__(self, other): return self.intersect(other) # self & other
+    def __or__(self, other): return self.union(other) # self | other
+    def __repr__(self): return 'Set:' + repr(self.data) # ?????
+
+
+# File: multiset.py
+from setwrapper import Set
+
+class MultiSet(Set):
+#    def __init__(self, *args):
+#        self.data = []
+#        self.init_args = args
+#        for arg in args:
+#            self.concat(arg)
+    def intersect(self, *others):
+        res = []
+        for x in self:  # ??????????? ?????? ????????-??
+            for other in others:  # ??? ???? ????????? ??????????
+                if x not in other:  # ??????? ???????????? ?? ?????
+                    break  # ???: ???????? ????
+                else:
+                    res.append(x)   # ??: ???????? ??????? ? ?????
+        return Set(res)
+    def union(*args):      # self - args[0]
+        res = []
+        for seq in args:   # ??? ???? ??????????
+            for x in seq:   # ??? ???? ?????
+                if not x in res:
+                    res.append(x)     # ???????? ????? ??????? ? ?????????
+        return Set(res)
+
+
+if __name__ == '__main__':
+    print("# ms = MultiSet('0adEf')")
+    ms = MultiSet('0adEf')
+    print("ms =", ms)
+    print("ms & [0, 'a', 'A', 'ttt'] =", ms & [0, 'a', 'A', 'ttt'])
+    print("ms | [0, 'a', 'A', 'ttt'] =", ms | [0, 'a', 'A', 'ttt'])
+    print("ms.intersect('abc', (0, 1, 2, 3, 'a'), 'aaaaaaaaaaaA'):", ms.intersect('abc', (0, 1, 2, 3, 'a'), 'aaaaaaaaaaaA'))
+    print("ms.union('abc', (0, 1, 2, 3, 'a'), 'aaaaaaaaaaaA'):", ms.union('abc', (0, 1, 2, 3, 'a'), 'aaaaaaaaaaaA'))
+
+
+
+# Task 6. Relationships in the class tree
+
+class ListTree:
+    '''
+    ????????? ?????, ? ??????? ????? __str__ ????????????? ??? ?????? ???????
+    ? ?????????? ?????? ????????? ???? ????????, ??????????? ? ?????? ????
+    self; ?????????? ????????? print(), str() ? ?????????? ?????????????????
+    ?????? ?? ???????; ?? ????????? ?????????? ? ??????? ????????? ??????????
+    ??????? ?????????? ????? ???? __X; ??? ???????????? ?????? ????????????
+    ?????????? ?????????-?????????; ????? ??????? ??????????? ???????? ?????
+    ?????????, ?????????? ????? str.format()
+    '''
+    def __str__(self):
+        self.__visited = {}
+        return '<Instance of {0}({1}), address {2}:\n{3}{4}>'.format(
+                                self.__class__.__name__,
+                                self.tuple_bases(),
+                                id(self),
+                                self.__attrnames(self, 0),
+                                self.__listclass(self.__class__, 4))
+    def __listclass(self, aClass, indent):
+        dots = '.' * indent
+        if aClass in self.__visited:
+            return '\n{0}<Class {1}:, address {2}: (see above)>\n'.format(
+                                dots,
+                                aClass.__name__,
+                                id(aClass))
+        else:
+            self.__visited[aClass] = True
+            genabove = (self.__listclass(c, indent+4) for c in aClass.__bases__)
+            return '\n{0}<Class {1}, address {2}:\n{3}{4}{5}>\n'.format(
+                                dots,
+                                aClass.__name__,
+                                id(aClass),
+                                self.__attrnames(aClass, indent),
+                                ''.join(genabove),
+                                dots)
+    def __attrnames(self, obj, indent):
+        spaces = ' ' * (indent + 4)
+        result = ''
+        for attr in sorted(obj.__dict__):
+            if attr.startswith('__') and attr.endswith('__'):
+                result += spaces + '{0}=<>\n'.format(attr)
+            else:
+                result += spaces + '{0}={1}\n'.format(attr, getattr(obj, attr))
+        return result
+    def tuple_bases(self):
+        res = []
+        for cls in self.__class__.__bases__:
+            res.append(cls.__name__)
+        return ', '.join(res)
+
+if __name__ == '__main__':
+   class A: pass
+   class B: pass
+   class C(A, B, ListTree): pass
+   I = C()
+   print(I)
+
+
+
+# Task 7. Composition
+
+# File: composition.py
+
+class Lunch:
+    def __init__(self): # ??????? ? ?????????? Customer ? Employee
+        self.client = Customer()
+        self.server = Employee()
+    def order(self, foodName): # ????????? ????? ??????
+        self.client.placeOrder(foodName, self.server)     		
+    def result(self): # ??????????? ? ??????? ???????? ?????
+        self.client.printFood()
+
+class Customer:
+    def __init__(self): # ?????????????? ???????? ????? ????????? None
+        self.food = None
+    def placeOrder(self, foodName, employee): # ???????? ????? ?????????
+        self.food = employee.takeOrder(foodName)    
+    def printFood(self): # ??????? ???????? ?????
+        print(self.food.name)
+        
+class Employee:
+    def takeOrder(self, foodName): # ?????????? ????? ? ????????? ?????????
+        return Food(foodName) 
+		
+class Food:
+    def __init__(self, name=''):	# ????????? ???????? ?????
+        self.name = name
+
+
+if __name__ == '__main__':
+    scenerio = Lunch()
+    scenerio.order(input('Enter the name of the dish:\n'))
+    scenerio.result()
+
+
+
+# Task 8. Classification of animals in Zoology
+
+# File: zoo.py
+
+class Animal:
+    def reply(self):
+        self.speak()
+    def speak(self):
+        print("WARNING: object {0} doesn't have method 'speak'".format(self))
+    def printer(self, cls):
+        print('This is method:   {0}.speak\nShould be method: {1}.speak'.format(cls.__name__, self.__class__.__name__))
+
+
+class Mammal(Animal):
+    def speak(self):
+        self.printer(Mammal)
+
+class Cat(Mammal):
+    def speak(self):
+        self.printer(Cat)
+
+class Dog(Mammal):
+    def speak(self):
+        self.printer(Dog)
+
+class Primate(Mammal):
+    def speak(self):
+        self.printer(Primate)
+
+class Hacker(Primate):
+    def speak(self):
+        self.printer(Hacker)
+
+
+if __name__ == '__main__':
+    a = Animal()
+    m = Mammal()
+    c = Cat()
+    d = Dog()
+    p = Primate()
+    h = Hacker()
+    for inst in (a, m, c, d, p, h):
+        print('OBJECT:', inst)
+        inst.reply()
+        print('- - - - - - - - - - - - - - - - - - - - - - \n')
+    del Hacker.speak
+    print('~Hacker.speak was deleted~\n')
+    h.reply()
+
+
+# Task 9. A scene with a dead parrot
+
+# File: parrot.py
+
+class Printer:
+    def line(self):
+        print(self.name + ':', repr(self.says()))
+
+class Customer(Printer):
+    name = 'customer'
+    def says(self):
+        return "that's one ex-bird!"
+
+class Clerk(Printer):
+    name = 'clerk'
+    def says(self):
+        return "no it isn't..."
+
+class Parrot(Printer):
+    name = 'parrot'
+    def says(self):
+        return None
+       
+class Scene:
+    def __init__(self):
+        self.customer = Customer()
+        self.clerk = Clerk()
+        self.subject = Parrot()
+    def action(self):
+        self.customer.line()
+        self.clerk.line()
+        self.subject.line()
+
+if __name__ == '__main__':
+    Scene().action()
+
+
