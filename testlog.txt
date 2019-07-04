@@ -32,3 +32,7 @@ uncought! <class 'ZeroDivisionError'> SPAM
 2019-07-02 14:05:29.009579 - FAILED: <function errmaker at 0x7f62b907c268>(()), ERROR: <class 'Exception'> 
 2019-07-02 14:06:41.238423 - FAILED: <function errmaker at 0x7f62b907c268>((SyntaxError('HELLO WORLD!',),)), ERROR: <class 'SyntaxError'> HELLO WORLD!
 2019-07-02 14:17:10.368953 - FAILED: <function errmaker at 0x7f62b907c268>((ZeroDivisionError('SPAM',),)), ERROR: <class 'ZeroDivisionError'> SPAM
+uncought! <class 'TypeError'> None
+uncought! <class 'IndexError'> SPAM
+uncought! <class 'ZeroDivisionError'> SPAM
+2019-07-02 14:03:56.656057 - FAILED: <function errmaker at 0x7f62b907c268>(()), ERROR: <class 'Exception'> 
