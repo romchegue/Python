@@ -71,10 +71,10 @@ else:
     dirname = '/usr/lib64/python3.6'
 
 allsizes = []
-for (thisDir, subsHere, filesHere) in os.walk(dirname):
-    for filename in filesHere:
+for (dirpath, dirnames, filenames) in os.walk(dirname):
+    for filename in filenames:
         if filename.endswith('.py'):
-            fullname = os.path.join(thisDir, filename)
+            fullname = os.path.join(dirpath, filename)
             fullsize = os.path.getsize(fullname)
             allsizes.append((fullsize, fullname))
 
@@ -83,7 +83,178 @@ pprint.pprint(allsizes[:2])
 pprint.pprint(allsizes[-2:])
 
 
+    # 4.3. Поиск наибольшего файла с исходным программным кодом на языке Python в пути поиска модулей
 
+import sys, os, pprint
+visited = {}
+allsizes = []
+for srcdir in sys.path:
+    for (dirpath, dirnames, filenames) in os.walk(srcdir):
+        dirpath = os.path.normpath(dirpath)
+        if dirpath.upper() in visited:
+            continue
+        else:
+            visited[dirpath.upper()] = True
+            for filename in filenames:
+                pypath = os.path.join(dirpath, filename)
+                try:
+                    pysize = os.path.getsize(pypath)
+                except:
+                    print('skipping', pypath)
+                allsizes.append((pysize, pypath))
+
+allsizes.sort()
+pprint.pprint(allsizes[:3])
+pprint.pprint(allsizes[-3:])
+
+
+    # 4.4. Сумма по столбцам, разделенным запятыми, в текстовом файле
+
+filename = 'data.txt'
+sums = {}
+
+for line in open(filename):
+    cols = line.split(',')
+    nums = [int(col) for col in cols]
+    for (ix, num) in enumerate(nums):
+        sums[ix] = sums.get(ix, 0) + num
+
+for key in sorted(sums):
+    print(key, '=', sums[key])
+
+
+    # 4.5. То же, что и выше, но суммы накапливаются в списке, а не в словаре
+
+# file: comma-sep-summator.py
+
+import sys
+filename = sys.argv[1]
+numcols = int(sys.argv[2])
+totals = [0] * numcols
+
+for line in open(filename):
+    cols = line.split(',')
+    nums = [int(x) for x in cols]
+    totals = [(x + y) for (x, y) in zip(totals, nums)]
+
+print(totals)
+
+
+    # 4.6. Регрессивное тестирование результатов работы нескольких сценариев
+
+# file: regresstest.py
+
+import os, sys
+testscripts = [dict(script='comma-sep-summator.py', args='data.txt 3'), # Или подставьте свои
+               dict(script='nextexc.py', args='')]                      # значения script/args
+
+for testcase in testscripts:
+    commandline = '{executer} {script} {args}'.format(executer=sys.executable, **testcase)
+    output = os.popen(commandline).read()
+    result = testcase['script'] + '.result'
+    if not os.path.exists(result):
+        open(result, 'w').write(output)
+        print('Created:', result)
+    else:
+        priorresult = open(result).read()
+        if output != priorresult:
+            print('FAILED:', testcase['script'])
+        else:
+            print('Passed:', testcase['script'])
+
+
+    # 4.7. Создание ГИП с помощью tkinter (Tkinter – в Python 2.6): кнопка, изменяющая цвет и размер
+
+from tkinter import *
+import random
+fontsize = 25
+colors = ['red', 'green', 'blue', 'yellow', 'orange', 'white', 'cyan', 'purple']
+
+def reply(text):
+    print(text)
+    popup = Toplevel()
+    color = random.choice(colors)
+    Label(popup, text='Popup', bg='black', fg=color).pack()
+    L.config(fg=color)
+    
+def timer():
+    L.config(fg=random.choice(colors))
+    win.after(250, timer)
+
+def grow():
+    global fontsize
+    fontsize += 5
+    L.config(font=('arial', fontsize, 'italic'))
+    win.after(100, grow)
+
+win = Tk()
+L = Label(win, text='Spam',
+          font=('arial', fontsize, 'italic'), fg='yellow', bg='navy',
+          relief=RAISED)
+L.pack(side=TOP, expand=YES, fill=BOTH)
+		  
+Button(win, text='press', command=(lambda: reply('red'))).pack(side=BOTTOM,fill=X)
+Button(win, text='timer', command=timer).pack(side=BOTTOM, fill=X)
+Button(win, text='grow', command=grow).pack(side=BOTTOM, fill=X)
+win.mainloop()
+
+
+    # 4.8. То же, что и выше, но на основе классов, поэтому каждое окно может
+	#      иметь свою собственную информацию о состоянии
+
+from tkinter import *
+import random
+
+class MyGui:
+    '''
+    ГИП с кнопками, которые изменяют цвет и размер надписи
+    '''
+    colors = ['red', 'green', 'blue', 'yellow', 'orange', 'white', 'cyan', 'purple']
+    def __init__(self, parent, title='popup'):
+        parent.title(title)
+        self.growing = False
+        self.fontsize = 10
+        self.lab = Label(parent, text='Gui1', fg='white', bg='navy')
+        self.lab.pack(expand=YES, fill=BOTH)
+        Button(parent, text='Spam', command=self.reply).pack(side=LEFT)
+        Button(parent, text='Grow', command=self.grow).pack(side=LEFT)
+        Button(parent, text='Stop', command=self.stop).pack(side=LEFT)
+
+def reply(self):
+    ' при нажатии кнопки Spam изменяет цвет случайным образом '
+    self.fontsize += 5
+    color = random.choice(self.colors)
+    self.lab.config(bg=color,
+    font=('courier', self.fontsize, 'bold italic'))
+
+def grow(self):
+    'при нажатии кнопки Grow начинает увеличивать размер надписи'
+    self.growing = True
+    self.grower()
+
+def grower(self):
+    if self.growing:
+        self.fontsize += 5
+        self.lab.config(font=('courier', self.fontsize, 'bold'))
+        self.lab.after(500, self.grower)
+
+def stop(self):
+    'при нажатии кнопки Stop останавливает увеличение размера'
+    self.growing = False
+
+class MySubGui(MyGui):
+    colors = ['black', 'purple'] # Настройка изменения цвета
+
+MyGui(Tk(), 'main')
+MyGui(Toplevel())
+MySubGui(Toplevel())
+mainloop()
+	
+
+
+
+	
+	
 
 
 
