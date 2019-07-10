@@ -1,3 +1,7 @@
+# file: ANSII_32-126.txt
+
+# АБВГД10192fжэ
+
 for i in range(32, 127, 1):
     l = str(i) + ' --- ' + chr(i)
     if len(str(i)) == 2:
