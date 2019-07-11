@@ -126,6 +126,67 @@ if __name__ == '__main__':
 
 
 ##################################################
+class Descriptor(object):
+    'docstring goes here'
+    def __init__(self, name):
+        self.attrname = name
+    def __get__(self, instance, owner):
+        print(self, instance, owner, sep='\n')
+#        return getattr(instance, self.attrname)
+    def __set__(self, instance, value):
+        print(self, instance, value, sep='\n')
+        raise AttributeError('READ ONLY!')
+#        setattr(instance, self.attrname, value)
+    def __delete__(self, instance):
+        print(self, instance, sep='\n')
+#        delattr(instance, self.attrname)
+
+
+class C(object):
+    def __init__(self, start=None):
+        self._x = start
+    X = Descriptor('X')     # 'X' - managed attribute
+
+I = C('SPAM')
+
+
+##################################################
+class D(object):
+    def __get__(*args):
+        print('get')
+
+class C:
+    a = D()    # 'a' - managed attribute
+
+X = C()
+
+
+##################################################
+class D(object):
+    def __get__(*args):
+        print('get')
+    def __set__(*args):
+        raise AttributeError('cannot set')
+
+class C(object):
+    a = D()       # 'a' - managed attribute
+
+X = C()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
