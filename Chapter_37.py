@@ -177,7 +177,6 @@ class C(object):
 X = C()
 [C() for i in range(21)]
 X
-<<<<<<< HEAD
 
 
 ##################################################
@@ -427,184 +426,23 @@ class Person:
 
 
 
-=======
->>>>>>> 4a047eefbf0b7fc6e1fbf73ee4d1c4d92fa6e766
 
 
-##################################################
-class Name(object):
-    "name descriptor docs"
-    def __get__(self, instance, owner):
-        print('fetch...')
-        return instance._name
-    def __set__(self, instance, value):
-        print('change...')
-        instance._name = value
-    def __delete__(self, instance):
-        print('remove...')
-        del instance._name
-
-class Super(object):
-    def __init__(self, name):
-        self._name = name
-    name = Name() # You should assign descriptor only to attribute of a class (not to self!!!)
-
-class Person(Super):   # Will inherit a decriptor 'name'
-    pass
-
-if __name__ == '__main__':
-    bob = Person('Bob Smith')
-    print(bob.name)
-    bob.name = 'Robert Smith'
-    print(bob.name)
-    del bob.name
-    print('-' * 20)
-    sue = Person('Sue Jones')
-    print(sue.name)
-    print(Name.__doc__)
 
 
-##################################################
-class Super(object):
-    def __init__(self, name):
-        self._name = name
-    class Name(object):
-        "name descriptor docs"
-        def __get__(self, instance, owner):
-            print('fetch...')
-            return instance._name
-        def __set__(self, instance, value):
-            print('change...')
-            instance._name = value
-        def __delete__(self, instance):
-            print('remove...')
-            del instance._name    
-    name = Name()
-
-class Person(Super):
-    pass
-
-if __name__ == '__main__':
-    bob = Person('Bob Smith')
-    print(bob.name)
-    bob.name = 'Robert Smith'
-    print(bob.name)
-    del bob.name
-    print('-' * 20)
-    sue = Person('Sue Jones')
-    print(sue.name)
-    print(Person.Name.__doc__)
 
 
-##################################################
-class DescSquare:
-    def __init__(self, start):     # Every descriptor has their own data
-        self.value = start
-    def __get__(self, instance, owner):   # An operation of getting a value
-        return self.value ** 2
-    def __set__(self, instance, value):    # An operation of an assignment
-        self.value = value
-
-class Client1:
-    X = DescSquare(3)
-
-class Client2:
-    X = DescSquare(32)
-
-P = Client1()
-Q = Client2()
-
-print(P.X)
-P.X = 4
-print(P.X)
-print(Q.X)
 
 
-##################################################
-class Property(object):
-    def __init__(self, fget=None, fset=None, fdel=None, doc=None):
-        self.fget = fget
-        self.fset = fset
-        self.fdel = fdel
-        self.__doc__ = doc
-    def __get__(self, instance, instancetype=None):
-        if instance is None:
-            return self
-        if self.fget is None:
-            raise AttributeError("can't get attribute")
-        return self.fget(instance)  # Pass an instance in the self argument to the access method
-    def __set__(self, instance, value):
-        if self.fset is None:
-            raise AttributeError("can't set attribute")
-        self.fset(instance, value)
-    def __delete__(self, instance):
-        if self.fdel is None:
-            raise AttributeError("can't delete attribute")
-        self.fdel(instance)
-
-class Person:
-    def __init__(self, name):
-        self._name = name
-    def getName(self):
-        print('fetch...')
-        return self._name
-    def setName(self, value):
-        print('change...')
-        self._name = value
-    def delName(self):
-        print('remove...')
-        del self._name
-    name = Property(fget=getName, fset=setName, fdel=delName, doc='name property docs')  # name = property(name)
-
-lola = Person('Laura Majorgy')
 
 
-##################################################
-class C:
-    def __init__(self, name=None):
-        self.name = name
-    def A(self):
-	    return self.B()
-    def B(self):
-        print(self.name, 'PRINT')
-        return self.name
-
-c = C("Marry")
-c.A()
 
 
-##################################################
-class  Catcher:
-    def __getattr__(self, name):
-        print('Get:', name)
-    def __setattr__(self, name, value):
-        print('Set:', name, value)
-
-X = Catcher()
-X.job
-X.pay
-X.pay = 99
 
 
-##################################################
-class Wrapper:
-    def __init__(self, object):
-        self.wrapped = object     # Save an object
-    def __getattr__(self, attrname):
-        print('Trace:', attrname) # Report an attempt to read
-        return getattr(self.wrapped, attrname) # Delegate the read operation
-
-class C:
-    def __init__(self, name=None):
-        self.name = name
-    def A(self):
-	    return self.B()
-    def B(self):
-        print(self.name, 'PRINT')
-        return self.name
-
-c = C('Polina')
-x = Wrapper(c)
 
 
-##################################################
+
+
+
+
