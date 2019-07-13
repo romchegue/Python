@@ -404,6 +404,27 @@ class Person:
             print('remove...')
             attr = '_name'
         del self.__dict__[attr]  # To prevent looping
+<<<<<<< HEAD
+=======
+
+if __name__ == '__main__':
+    bob = Person('Bob Smith')  # 'name' is managed attribute
+    print(bob.name)            # Will call __getattr__
+    bob.name = 'Robert Smith'  # Will call __setattr__
+    print(bob.name)
+    del bob.name               # Will call __delattr__
+    print('-' * 20)
+    sue = Person('Sue Jones')    
+    print(sue.name)
+
+
+##################################################
+
+
+
+
+
+>>>>>>> 0a999842c1ef89e23fce1990c6b7ec70b5a88cae
 
 if __name__ == '__main__':
     bob = Person('Bob Smith')  # 'name' is managed attribute
@@ -493,6 +514,7 @@ print(X.attr2)
 print(X.attr3)
 
             
+##################################################
         
 
 
