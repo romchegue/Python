@@ -380,9 +380,238 @@ del X.attr2
 
 ##################################################
 class Person:
-    def __init__(self, name):
-        self._name = name
-    
+    def __init__(self, name):  # Called when creating a Person()
+        self._name = name      # Will call __setattr__ !!!
+#    def __getattr__(self, attr):   # Called by obj.udefined
+#        if attr == 'name':         # for an absent attribute with the name 'name'
+#            print('fetch...')      # 'name' is managed attribute
+#            return self._name  # Does not loop: existing attribute
+#        else:
+#            raise AttributeError(attr)  # Turning to the other non-existent 
+#                                        # attributes will call an error
+    def __getattribute__(self, attr): # Called by obj.any -
+        if attr == 'name':            # - intercepts calls to any names
+            print('fetch...')
+            attr = '_name'   # Maps to the internal name '_name'
+        return object.__getattribute__(self, attr)  # To prevent looping 
+    def __setattr__(self, attr, value): # Called by obj.any = value
+        if attr == 'name':       # 'name' is managed attribute
+            print('change...')
+            attr = '_name'     # The internal name of the attribute
+        self.__dict__[attr] = value   # To prevent looping
+    def __delattr__(self, attr):   # Called by del obj.name
+        if attr == 'name':       # 'name' is managed attribute
+            print('remove...')
+            attr = '_name'
+        del self.__dict__[attr]  # To prevent looping
+<<<<<<< HEAD
+=======
+
+if __name__ == '__main__':
+    bob = Person('Bob Smith')  # 'name' is managed attribute
+    print(bob.name)            # Will call __getattr__
+    bob.name = 'Robert Smith'  # Will call __setattr__
+    print(bob.name)
+    del bob.name               # Will call __delattr__
+    print('-' * 20)
+    sue = Person('Sue Jones')    
+    print(sue.name)
+
+
+##################################################
+
+
+
+
+
+>>>>>>> 0a999842c1ef89e23fce1990c6b7ec70b5a88cae
+
+if __name__ == '__main__':
+    bob = Person('Bob Smith')  # 'name' is managed attribute
+    print(bob.name)            # Will call __getattr__
+    bob.name = 'Robert Smith'  # Will call __setattr__
+    print(bob.name)
+    del bob.name               # Will call __delattr__
+    print('-' * 20)
+    sue = Person('Sue Jones')    
+    print(sue.name)
+
+
+##################################################
+class AttrSquare:
+    def __init__(self, start):
+        self.value = start     # Will call __setattr__ !!!
+    def __getattr__(self, attr):  # Called by obj.udefined
+        if attr == 'X':
+             return self.value ** 2  # Attribute 'value' is existing
+        else:
+            raise AttributeError(attr)
+    def __setattr__(self, attr, value):  # Called by obj.any = value
+        if attr == 'X':
+            attr = 'value'
+        self.__dict__[attr] = value
+
+A = AttrSquare(3)   # 2 istance of the class with operator overloading methods
+B = AttrSquare(32)  # Every instance will save their own data  
+
+
+##################################################
+class AttrSquare:
+    def __init__(self, start):
+        self.value = start     # Will call __setattr__ !!!
+#    def __getattribute__(self, attr):  # Called by obj.any
+#        if attr == 'X':
+#            return self.value ** 2  # Method '__getattribute__' - 
+#        else:                       # will be called again !!!
+#            return object.__getattribute__(self, attr)
+    def __getattribute__(self, attr):  # Called by obj.any
+        if attr == 'X':
+            return object.__getattribute__(self, 'value') ** 2  # Method '__getattribute__' - 
+        else:                                                   # will be called again !!!
+            return object.__getattribute__(self, attr)    
+    def __setattr__(self, attr, value):  # Called by obj.any = value
+        if attr == 'X':
+            attr = 'value'
+        object.__setattr__(self, attr, value)
+
+A = AttrSquare(3)   # 2 istance of the class with operator overloading methods
+B = AttrSquare(32)  # Every instance will save their own data  
+
+
+##################################################
+class GetAttr(object):
+    attr1 = 1
+    def __init__(self):
+        self.attr2 = 2
+    def __getattr__(self, attr):
+        if attr == 'attr3':
+            print('get: ' + attr)
+            return 3
+        else:
+            raise AttributeError(attr)
+
+X = GetAttr()
+print(X.attr1)
+print(X.attr2)
+print(X.attr3)
+
+print('-' * 40)
+
+class GetAttribute(object):
+    attr1 = 1
+    def __init__(self):
+        self.attr2 = 2
+    def __getattribute__(self, attr):
+        print('get: ' + attr)
+        if attr == 'attr3':
+            return 3
+        else:
+            return object.__getattribute__(self, attr)
+
+X = GetAttribute()
+print(X.attr1)
+print(X.attr2)
+print(X.attr3)
+
+            
+##################################################
+class Powers:
+    def __init__(self, square, cube):        
+        self._square = square
+        self._cube = cube
+    def getSquare(self):
+        return self._square ** 2
+    def setSquare(self, value):
+        self._square = value
+    square = property(getSquare, setSquare)
+    def getCube(self):
+        return self._cube ** 3
+    cube = property(getCube)
+
+X = Powers(3, 4)
+print(X.square)
+print(X.cube)
+X.square = 5
+print(X.square)
+
+
+##################################################
+class DescSquare:
+    def __get__(self, instance, owner):
+        return instance._square ** 2
+    def __set__(self, instance, value):
+        instance._square = value
+
+class DescCube:
+    def __get__(self, instance, owner):
+        return instance._cube ** 3
+
+class Powers:
+    square = DescSquare()
+    cube = DescCube()
+    def __init__(self, square, cube):        
+        self._square = square   # 'self.square = square' will also work - 
+        self._cube = cube       # - because it will call 'DescSquare.__set__'
+
+X = Powers(3, 4)
+print(X.square)
+print(X.cube)
+X.square = 5
+print(X.square)
+
+
+##################################################
+class Powers:
+    def __init__(self, square, cube):        
+        self._square = square
+        self._cube = cube
+    def __getattr__(self, name):
+        if name == 'square':
+            return self._square ** 2
+        elif name == 'cube':
+            return self._cube ** 3
+        else:
+            raise AttributeError('unknown attribute: ' + name)
+    def __setattr__(self, name, value):
+        if name == 'square':
+            name = '_square'
+#        object.__setattr__(self, name, value)
+        self.__dict__[name] = value
+
+X = Powers(3, 4)
+print(X.square)
+print(X.cube)
+X.square = 5
+print(X.square)
+
+
+##################################################
+class Powers:
+    def __init__(self, square, cube):        
+        self._square = square
+        self._cube = cube
+    def __getattribute__(self, name):
+        if name == 'square':
+            return object.__getattribute__(self, '_square') ** 2
+        elif name == 'cube':
+            return object.__getattribute__(self, '_cube') ** 3
+        else:
+            return object.__getattribute__(self, name)
+    def __setattr__(self, name, value):
+        if name == 'square':
+            name = '_square'
+#        object.__setattr__(self, name, value)
+        self.__dict__[name] = value
+
+X = Powers(3, 4)
+print(X.square)
+print(X.cube)
+X.square = 5
+print(X.square)
+
+
+##################################################
+       
 
 
 
@@ -414,6 +643,11 @@ class Person:
 
 
 
+<<<<<<< HEAD
+
+
+
+=======
 
 
 
@@ -425,24 +659,4 @@ class Person:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+>>>>>>> dbdd9e085b68871b5036528c88066f1e37f8ef87
