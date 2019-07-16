@@ -700,7 +700,7 @@ if __name__ == '__main__':
 
 
 ##################################################
-# file: cardholder.py
+# file: cardholder1.py
 
 class CardHolder:
     acctlen = 8
@@ -761,3 +761,129 @@ try:
     sue.acct = '1234567'
 except:
     print('Bad acct for Sue')
+
+
+##################################################
+# file: cardholder2.py
+
+class CardHolder:
+    acctlen = 8
+    retireage = 59.5
+    
+    def __init__(self, acct, name, age, addr):
+        self.acct = acct    # Instance data
+        self.name = name    # These operations call method '__set__'
+        self.age = age      # We don't need to use name view '__X'
+        self.addr = addr    # addr - unmanged attribute
+    
+    class Name:
+        def __get__(self, instance, owner):
+            return self.name
+        def __set__(self, instance, value):
+            value = value.lower().replace(' ', '_')
+            self.name = value
+    name = Name()
+    
+    class Age:
+        def __get__(self, instance, owner):
+            return self.age
+        def __set__(self, instance, value):
+            if value < 0 or value > 150:
+                raise ValueError('invalid age')
+            else:
+                self.age = value
+    age = Age()
+    
+    class Acct:
+        def __get__(self, instance, owner):
+            return self.acct[:-3] + '***'
+        def __set__(self, instance, value):
+            value = value.replace('-', '')
+            if len(value) != instance.acctlen:
+                raise TypeError('invalid acct number')
+            else:
+                self.acct = value
+    acct = Acct()
+    
+    class Remain:
+        def __get__(self, instance, owner):
+            return instance.retireage - instance.age
+        def __set__(self, instance, value):
+            raise TypeError('cannot set remain')
+    remain = Remain()
+
+
+##################################################
+# file: cardholder3.py
+
+class CardHolder:
+    acctlen = 8
+    retireage = 59.5
+    
+    def __init__(self, acct, name, age, addr):
+        self.acct = acct
+        self.name = name
+        self.age = age
+        self.addr = addr
+    
+    def __getattr__(self, name):
+        if name == 'acct':
+            return self._acct[:-3] + '***'
+        elif name == 'remain':
+            return self.retireage - self.age
+        else:
+            raise AttributeError(name)
+    
+    def __setattr__(self, name, value):
+        if name == 'name':
+            value = value.lower().replace(' ', '_')
+        elif name == 'age':
+            if value < 0 or value > 150:
+                raise ValueError('invalid age')
+        elif name == 'acct':
+            name = '_acct'
+            value = value.replace('-', '')
+            if len(value) != self.acctlen:
+                raise TypeError('invalid acct number')
+        elif name == 'remain':
+            raise TypeError('cannot set remain')
+        self.__dict__[name] = value
+
+
+##################################################
+# file: cardholder4.py
+
+class CardHolder:
+    acctlen = 8
+    retireage = 59.5
+    
+    def __init__(self, acct, name, age, addr):
+        self.acct = acct
+        self.name = name
+        self.age = age
+        self.addr = addr
+    
+    def __getattribute__(self, name):
+        superget = object.__getattribute__
+        if name == 'acct':
+            return superget(self, 'acct')[:-3] + '***'
+        elif name == 'remain':
+            return superget(self, 'retireage') - superget(self, 'age')
+        else:
+            return superget(self, name)
+    
+    def __setattr__(self, name, value):
+        if name == 'name':
+            value = value.lower().replace(' ', '_')
+        elif name == 'age':
+            if value < 0 or value > 150:
+                raise ValueError('invalid age')
+        elif name == 'acct':
+            value = value.replace('-', '')
+            if len(value) != self.acctlen:
+                raise TypeError('invalid acct number')
+        elif name == 'remain':
+            raise TypeError('cannot set remain')
+        self.__dict__[name] = value
+
+        
