@@ -431,7 +431,7 @@ X.attr
 
 
 ##################################################
-class tracer:
+class tracer(object):                  # Page 1110
     def __init__(self, func):                            # На этапе декорирования @
         print("[TEST] tracer.__init__:", self, func)
         self.calls = 0
@@ -476,13 +476,72 @@ class tracer:
         self.calls = 0
         self.func = func
     def __call__(self, *args, **kwargs):
-        print("[TEST] tracer.__call__:", self, *args, **kwargs)
+        print("[TEST] tracer.__call__:", self, args, kwargs)
         self.calls += 1
         print('call %s to %s' % (self.calls, self.func.__name__))
         return self.func(*args, **kwargs)
     def __get__(self, instance, owner):    # Вызывается при обращении к методу
         print("[TEST] tracer.__get__:", instance, owner)
         def wrapper(*args, **kwargs):      # Сохраняет оба экземпляра 
-            print("[TEST] tracer.__get__.wrapper:", *args, **kwargs)
+            print("[TEST] tracer.__get__.wrapper:", args, kwargs)
             return self(instance, *args, **kwargs)   # Вызовет __call__ 		
         return wrapper
+
+spam(1, 2, 3)
+spam(a=4, b=5, c=6)
+
+bob = Person('Bob Smith', 50000)
+sue = Person('Sue Jones', 100000)
+print(bob.name, sue.name)              
+bob.giveRaise(.20)
+sue.giveRaise(.10)
+print(bob.pay, sue.pay)
+print(bob.lastName(), sue.lastName())
+
+
+##################################################
+# file: timer_decor.py
+
+import time
+
+class timer:
+    def __init__(self, func):
+        self.func = func
+        self.alltime = 0
+    def __call__(self, *args, **kwargs):
+        start = time.time()
+        result = self.func(*args, **kwargs)
+        elapsed = time.time() - start
+        self.alltime += elapsed
+#        print('%s: %.5f, %.5f' % (self.func.__name__, elapsed, self.alltime))
+        print('{0}: {1:.5f}, {2:.5f}'.format(self.func.__name__, elapsed, self.alltime))
+        return result
+
+@timer
+def listcomp(N):
+    return [x * 2 for x in range(N)]
+
+@timer
+def mapcall(N):
+    return list(map((lambda x: x * 2), range(N)))
+
+result = listcomp(5)
+a = listcomp(50000)           # Use assignment to avoid output to stdout
+b = listcomp(500000)
+c = listcomp(1000000)
+print(result)
+print('allTime = {0}'.format(listcomp.alltime))
+
+print('')
+result = mapcall(5)
+a = mapcall(50000)            # Use assignment to avoid output to stdout
+b = mapcall(500000)
+c = mapcall(1000000)
+print(result)
+print('allTime = {0}'.format(mapcall.alltime))
+
+print('')
+print('map/comp = {0}'.format(round(mapcall.alltime / listcomp.alltime, 5)))
+
+
+##################################################
