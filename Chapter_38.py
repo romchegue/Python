@@ -223,8 +223,8 @@ def spam(a, b, c):
 
 ##################################################
 class tracer:                   # The state saves in attributes of an instance
-    def __init__(self, func):   # at the stage of decoration @:
-        self.calls = 0          # saves orginal function 'func'
+    def __init__(self, func):   # At the stage of decoration @:
+        self.calls = 0          # Saves orginal function 'func'
         self.func = func
     def __call__(self, *args, **kwargs):  # Called when accessed to the oroginal function 'func'
         self.calls += 1 
@@ -601,5 +601,126 @@ print('map/comp = %s' % round(mapcall.alltime / listcomp.alltime, 3))
 
 
 ##################################################
+instances = {}
+def getInstance(aClass, *args, **kwargs):     # Manages the global table
+    if aClass not in instances:
+        instances[aClass] = aClass(*args, **kwargs)   # One dictionary element per class
+    return instances[aClass]
+
+def singleton(aClass):
+    def onCall(*args, **kwargs):
+        return getInstance(aClass, *args, **kwargs)
+    return onCall
 
 
+@singleton                                     # Person = singleton(Person)
+class Person:                                  # Assigns onCall to the Person name
+    def __init__(self, name, hours, rate):     # onCall will save Person
+        self.name = name
+        self.hours = hours
+        self.rate = rate
+    def pay(self):
+        return self.hours * self.rate
+
+@singleton
+class Spam:
+    def __init__(self, val):
+        self.attr = val
+
+bob = Person('Bobby', 40, 10)    
+print(bob.name, bob.pay())
+
+sue = Person('Sue', 50, 20)
+print(sue.name, sue.pay())
+
+X = Spam(42)
+Y = Spam(99)
+print(X.attr, Y.attr)
+
+
+##################################################
+def singleton(aClass):                  # At the stage of decoration @:
+    instance = None
+    def onCall(*args, **kwargs):        # At the stage of creation of an instance 
+        nonlocal instance               # nonlocal - from Python 3.0 and upper
+        if instance == None:
+            instance = aClass(*args, **kwargs)  # At the same scope on each class
+        return instance
+    return onCall
+
+-- // --
+
+
+##################################################
+class singleton:
+    def __init__(self, aClass):        # At the stage of decoration @:
+        self.aClass = aClass
+        self.instance = None
+    def __call__(self, *args, **kwargs):    # At the stage of creation of an instance 
+        if self.instance == None:
+            self.instance = self.aClass(*args, **kwargs)      # One instance per class
+        return self.instance
+
+-- // --
+
+
+##################################################
+class Wrapper:
+    def __init__(self, object):
+        self.wrapped = object
+    def __getattr__(self, attrname):
+        print('Trace:', attrname)
+        return getattr(self.wrapped, attrname)
+
+x = Wrapper([1, 2, 3])
+x.append(4)
+x.wrapped
+x = Wrapper({'a': 1, 'b': 2})
+list(x.keys())
+
+
+##################################################
+def Tracer(aClass):                         # At the stage of decoration @:
+    class Wrapper:
+        def __init__(self, *args, **kwargs):        # At the stage of creation of an instance 
+            self.fetches = 0
+            self.wrapped = aClass(*args, **kwargs)
+        def __getattr__(self, attrname):
+            print('Trace: ' + attrname)
+            self.fetches += 1
+            return getattr(self.wrapped, attrname)
+    return Wrapper
+
+@Tracer
+class Spam:                            # Spam = Tracer(Spam)
+    def display(self):
+        print('Spam!' * 8)
+
+@Tracer
+class Person:                                  
+    def __init__(self, name, hours, rate):     
+        self.name = name
+        self.hours = hours
+        self.rate = rate
+    def pay(self):
+        return self.hours * self.rate
+
+
+food = Spam()
+food.display()             # __getattr__
+print([food.fetches])      # Inner call - Wrapper will not use        
+
+bob = Person('Bob', 40, 50)    # bob - instanceof class Wrapper !!!
+print(bob.name)
+print(bob.pay())
+
+sue = Person('Sue', rate=100, hours=60)
+print(sue.name)
+print(sue.pay())
+
+print(bob.name)
+print(bob.pay())
+print([bob.fetches, sue.fetches])
+
+
+##################################################
