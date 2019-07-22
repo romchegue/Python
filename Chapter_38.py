@@ -196,19 +196,293 @@ def filler(collection={}):
 
 
 ##################################################
+class tracer:
+    def __init__(self, func):   # at the stage of decoration @:
+        self.calls = 0          # saves orginal function 'func'
+        self.func = func
+    def __call__(self, *args):  # On subsequent calls:
+        self.calls += 1         # calls the oroginal function 'func'
+        print('call %s to %s' % (self.calls, self.func.__name__))
+        self.func(*args)
+
+@tracer
+def spam(a, b, c):    # spam = tracer(spam) - 'spam' is an instance of the class 'tracer' 
+    print(a + b + c)  # Wraps the spam function with a decorator object
+
+# Equivalent implementation without the use of a decorator:
+calls = 0
+def tracer(func, *args):
+    global calls
+    calls += 1
+    print('call %s to %s' % (calls, func.__name__))
+    func(*args)
+
+def spam(a, b, c):
+    print(a, b, c)
 
 
+##################################################
+class tracer:                   # The state saves in attributes of an instance
+    def __init__(self, func):   # at the stage of decoration @:
+        self.calls = 0          # saves orginal function 'func'
+        self.func = func
+    def __call__(self, *args, **kwargs):  # Called when accessed to the oroginal function 'func'
+        self.calls += 1 
+        print('call %s to %s' % (self.calls, self.func.__name__))
+        self.func(*args, **kwargs)
+
+@tracer
+def spam(a, b, c):    # spam = tracer(spam)
+    print(a + b + c)  # calls method tracer.__init__
+
+@tracer
+def eggs(x, y):
+    print(x ** y)
+
+spam(1, 2, 3)        # tracer.__call__
+spam(a=1, b=2, c=3)  # spam - an attribute of the instance
+
+eggs(2, 16)          # self.func = eggs
+eggs(4, y=4)
 
 
+##################################################
+calls = 0
+def tracer(func):
+    def wrapper(*args, **kwargs):
+        global calls       # 'calls' is a global variable that is 
+        calls += 1         # common to all functions, not to each function individually
+        print('call %s to %s' % (calls, func.__name__))
+        return func(*args, **kwargs)
+    return wrapper
+
+@tracer
+def spam(a, b, c):    # spam = tracer(spam)
+    print(a + b + c)  
+
+@tracer
+def eggs(x, y):
+    print(x ** y)
+
+spam(1, 2, 3)        
+spam(a=1, b=2, c=3)  
+
+eggs(2, 16)          
+eggs(4, y=4)
 
 
+##################################################
+# file: calc.py
+
+def calc():
+    hint = '''
+'?' - help
+'*' - multiplication. Ex.: x * y
+'/' - division. Ex.: x / y
+'+' - addition. Ex.: x + y
+'-' - subtraction. Ex.: x - y
+'**' - exponentiation. Ex.: x ** y
+'()' - prioritization. Ex.: (x + y) * z
+'%' - remainder of division. Ex.: x % y
+'//' - obtaining the integer part of the division. Ex.: x // y
+'abs()' - number modulus. Ex.: abs(x)
+'-x' - the change of the sign of the number. Ex.: -x
+'divmod(x, y)' - a couple (x // y, x % y). Ex.: divmod(x, y)
+'pow(x, y[,z])' - x^y modulo (if the module is specified). Ex.: pow(x, y, z)
+'''
+    while True:
+        try:
+            x = input("Expression or '?' for help: ")
+            if '?' in x:    # Calls help hint
+                print(hint)
+                continue
+            else:
+                res = eval(x)   # Dangerous operation!!!
+        except SyntaxError as E:    # Errors of an input
+            print('SyntaxError:', E)
+            continue
+        if type(res) not in [float, int, complex]:   # check the type
+            print('TypeError:', res)
+            continue
+        else:
+            print(res)
 
 
+##################################################
+def tracer(func):
+    calls = 0
+    def wrapper(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        print('call %s to %s' % (calls, func.__name__))
+        return func(*args, **kwargs)
+    return wrapper
+
+@tracer
+def spam(a, b, c):    # spam = tracer(spam)
+    print(a + b + c)  
+
+@tracer
+def eggs(x, y):
+    print(x ** y)
+
+spam(1, 2, 3)        
+spam(a=1, b=2, c=3)  
+
+eggs(2, 16)          
+eggs(4, y=4)
 
 
+##################################################
+def tracer(func):
+    def wrapper(*args, **kwargs):
+        wrapper.calls += 1
+        print('call %s to %s' % (wrapper.calls, func.__name__))
+        return func(*args, **kwargs)
+    wrapper.calls = 0
+    return wrapper
 
 
+##################################################
+class tracer:                   
+    def __init__(self, func):   
+        self.calls = 0          
+        self.func = func
+    def __call__(self, *args, **kwargs):  
+        self.calls += 1 
+        print('call %s to %s' % (self.calls, self.func.__name__))
+        return self.func(*args, **kwargs)
+
+@tracer
+def spam(a, b, c):
+    print(a + b + c)
+
+spam(1, 2, 3)
+spam(a=1, b=2, c=3)
 
 
+class Person:
+    def __init__(self, name, pay):
+        self.name = name
+        self.pay = pay
+    @tracer
+    def giveRaise(self, percent):  # giveRaise = tracer(giverRaise)
+        self.pay *= (1.0 + percent)
+    @tracer
+    def lastName(self):            # lastName = tracer(lastName)
+        return self.name.split()[-1]
+
+bob = Person('Bob Smith', 50000)   
+bob.giveRaise(.25)                 # ERROR!
+print(bob.lastName())              # ERROR!
 
 
+##################################################
+def tracer(func):
+    calls = 0
+    def onCall(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        print('call %s to %s' % (calls, func.__name__))	
+        return func(*args, **kwargs)
+    return onCall
+
+@tracer
+def spam(a, b, c):      # spam = tarcer(spam)
+    print(a + b + c)    # onCall will save link on 'spam'
+
+spam(1, 2, 3)
+spam(a=4, b=5, c=6)
+
+
+class Person:
+    def __init__(self, name, pay):
+        self.name = name
+        self.pay = pay
+    @tracer
+    def giveRaise(self, percent):  # giveRaise = tracer(giverRaise)
+        self.pay *= (1.0 + percent)
+    @tracer
+    def lastName(self):            # lastName = tracer(lastName)
+        return self.name.split()[-1]
+
+print('methods...')
+bob = Person('Bob Smith', 50000)
+sue = Person('Sue Jones', 100000)
+print(bob.name, sue.name)              
+sue.giveRaise(.10)
+print(sue.pay)
+print(bob.lastName(), sue.lastName())
+
+
+##################################################
+class Descriptor:
+    def __get__(self, instance, owner):
+        print(self, instance, owner, end='\n')
+        return instance.__dict__
+
+class Subject:  
+    def __init__(self, name):
+        self._name = name
+    attr = Descriptor()
+
+X = Subject('ATTRIBUTE')
+X.attr
+
+
+##################################################
+class tracer:
+    def __init__(self, func):                            # На этапе декорирования @
+        print("[TEST] tracer.__init__:", self, func)
+        self.calls = 0
+        self.func = func  # Сохраняет функцию для последующего вызова
+    def __call__(self, *args, **kwargs):  # Вызывается при обращениях к оригинальной функции
+        self.calls += 1
+        print("[TEST] tracer.__call__:", *args, **kwargs)
+        print('call %s to %s' % (self.calls, self.func.__name__))
+        return self.func(*args, **kwargs)        
+    def __get__(self, instance, owner):     # Вызывается при обращении к атрибуту
+        return wrapper(self, instance)   # ?????????????????
+
+class wrapper:
+    def __init__(self, desc, subj):            # Сохраняет оба экземпляра 
+        print("[TEST] wrapper.__init__:", self, desc, subj)
+        self.desc = desc      # Делегирует вызов дескриптору
+        self.subj = subj
+    def __call__(self, *args, **kwargs):
+        print("[TEST] wrapper.__call__:", self, *args, **kwargs)
+        return self.desc(self.subj, *args, **kwargs)     # Вызовет tracer.__call__
+
+@tracer
+def spam(a, b, c):      # spam = tarcer(spam)
+    print(a + b + c)    # использует только __call__
+
+class Person:
+    def __init__(self, name, pay):
+        self.name = name
+        self.pay = pay
+    @tracer
+    def giveRaise(self, percent):  # giveRaise = tracer(giverRaise)
+        self.pay *= (1.0 + percent)
+    @tracer
+    def lastName(self):            # lastName = tracer(lastName)
+        return self.name.split()[-1]
+
+
+##################################################
+class tracer:
+    def __init__(self, func):
+        print("[TEST] tracer.__init__:", self, func)
+        self.calls = 0
+        self.func = func
+    def __call__(self, *args, **kwargs):
+        print("[TEST] tracer.__call__:", self, *args, **kwargs)
+        self.calls += 1
+        print('call %s to %s' % (self.calls, self.func.__name__))
+        return self.func(*args, **kwargs)
+    def __get__(self, instance, owner):    # Вызывается при обращении к методу
+        print("[TEST] tracer.__get__:", instance, owner)
+        def wrapper(*args, **kwargs):      # Сохраняет оба экземпляра 
+            print("[TEST] tracer.__get__.wrapper:", *args, **kwargs)
+            return self(instance, *args, **kwargs)   # Вызовет __call__ 		
+        return wrapper
