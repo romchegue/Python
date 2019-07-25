@@ -627,7 +627,7 @@ class Spam:
     def __init__(self, val):
         self.attr = val
 
-bob = Person('Bobby', 40, 10)    
+bob = Person('Bob', 40, 10)    
 print(bob.name, bob.pay())
 
 sue = Person('Sue', 50, 20)
@@ -680,9 +680,11 @@ list(x.keys())
 
 
 ##################################################
+# file: tracer.py
+
 def Tracer(aClass):                         # At the stage of decoration @:
     class Wrapper:
-        def __init__(self, *args, **kwargs):        # At the stage of creation of an instance 
+        def __init__(self, *args, **kwargs):        # At the stage of creation of an instance
             self.fetches = 0
             self.wrapped = aClass(*args, **kwargs)
         def __getattr__(self, attrname):
@@ -690,6 +692,7 @@ def Tracer(aClass):                         # At the stage of decoration @:
             self.fetches += 1
             return getattr(self.wrapped, attrname)
     return Wrapper
+
 
 @Tracer
 class Spam:                            # Spam = Tracer(Spam)
@@ -724,3 +727,235 @@ print([bob.fetches, sue.fetches])
 
 
 ##################################################
+from tracer import Tracer        # In module tracer.py
+@Tracer
+class MyList(list): pass         # MyList = Tracer(MyList)
+
+x = MyList([1, 2, 3])            # will call Wrapper()
+x.append(4)                      # will call __getattr__, append
+x.wrapped
+WrapList = Tracer(list)          # Handmade decoration
+x = WrapList([4, 5, 6])
+x.append(7)
+x.wrapped
+
+
+##################################################
+class Tracer:
+    def __init__(self, aClass):      # At the stage of decoration @
+        self.aClass = aClass         # Uses attributes of an instance
+    def __call__(self, *args, **kwargs):       # At the stage of an instance creation
+        self.wrapped = self.aClass(*args, **kwargs)     # THE ONLY ONE (RECENT) INSTANCE FOR EACH CLASS!
+        return self
+    def __getattr__(self, attrname):
+        print('Trace: ' + attrname)
+        return getattr(self.wrapped, attrname)
+
+@Tracer                             # will call __init__
+class Spam:                         # Spam = Tracer(Spam)     # Spam is <__main__.Tracer object at ...>
+    def display(self, N=10):
+        print('Spam!' * N)
+    def printer(self):
+        print(self, Spam.wrapped)
+    
+(food, X, Z) = (Spam(), Spam(), Spam())      # will call __call__
+for i in (food, X, Z):
+#    i.display()           # will call __getattr__
+    i.printer()           # will call __getattr__
+     
+
+@Tracer                             # will call __init__
+class Person:                       # Pesron = Tracer(Person)
+    def __init__(self, name): 
+        self.name = name
+
+bob = Person('Bob')         # bob - instance of class Tracer
+print(bob.name)        # The instance of class Tracer contains the instance of class Person
+sue = Person('Sue')
+print(sue.name)        # Instance use rewrite instance bob
+print(bob.name)        # Ooops... now Bob's name is 'Sue' =(
+
+
+##################################################
+instances = {}
+def getInstance(aClass, *args):
+    if aClass not in instances:
+        instances[aClass] = aClass(*args)
+    return instances[aClass]
+
+bob = getInstance(Person, 'Bob', 40, 10) # Вместо: bob = Person('Bob', 40, 10)
+
+
+##################################################
+instances = {}
+def getInstance(object):
+    aClass = object.__class__
+    if aClass not in instances:
+        instances[aClass] = object
+    return instances[aClass]
+
+bob = getInstance(Person('Bob', 40, 10)) # Вместо: bob = Person('Bob', 40, 10)
+
+
+##################################################
+# Registration of decorated objects
+registry = {}
+def register(obj):                 # The decorator of functions and classes
+    registry[obj.__name__] = obj   # Add to the registry
+    return obj                     # Return obj, but not wrapper
+
+@register
+def spam(x):                       # spam = register(spam)
+    return(x ** 2)
+
+@register                             
+def ham(x):                        
+    return(x ** 3)
+
+@register
+class Eggs:                        # Eggs = register(Eggs)
+    def __init__(self, x):
+        self.data = x ** 4
+    def __str__(self):
+        return str(self.data)
+
+print('Registry:')
+for name in registry:
+    print(name, '=>', registry[name], type(registry[name]))
+
+print('\nManual calls:')
+print(spam(2))
+print(ham(2))
+X = Eggs(2)
+print(X)
+
+print('\nRegistry calls:')
+for name in registry:
+    print(name, '=>', registry[name](3))        # Registry call
+
+
+##################################################
+# Direct extension of the decorated objects
+def decorate(func):
+    func.marked = True      # Assigns an attribute to 
+    return func             # the function for later use
+
+@decorate
+def spam(a, b):
+    return a + b 
+
+spam.marked
+
+
+def annotate(text):            # The same as previous but attribute value
+    def decorate(func):        # is passed as argument to the decorator
+        func.label = text
+        return func
+    return decorate
+
+@annotate('spam data')            
+def spam(a, b):                # spam = annotate('spam data')(spam)
+    return a + b
+
+spam(1, 2), spam.label
+
+
+##################################################
+# file: private38.py
+# Реализация частных атрибутов
+'''
+Ограничение на чтение значений частных атрибутов экземпляров классов.
+Примеры использования приводятся в программном коде самопроверки, в конце.
+Декоратор действует как: Doubler = Private('data', 'size')(Doubler).
+Функция Private возвращает onDecorator, onDecorator возвращает onInstance,
+а в каждый экземпляр onInstance встраивается экземпляр Doubler.
+'''
+traceMe = False
+def trace(*args):
+    if traceMe:
+        print('[' + ' '.join(map(str, args)) + ']')
+
+def Private(*privates):         # privates - в объемлющей области видимости
+    def onDecorator(aClass):    # aClass - в объемлющей области видимости
+        class onInstance:       # Обертывает экземпляр атрибута
+            def __init__(self, *args, **kwargs):
+                self.wrapped = aClass(*args, **kwargs)
+            def __getattr__(self, attr):       # Для собственных атрибутов getattr не вызывается 
+                trace('get:', attr)          # Другие, как предполагается, принадлежат 
+                if attr in privates:         # обернутому объекту
+                    raise TypeError('private attrribute fetch: ' + attr)
+                else:
+                    return getattr(self.wrapped, attr)       # getatttr используется вместо __dict__ потому,
+                              # что атрибуты могут наследоваться от класса, а не только храниться в объекте
+            def __setattr__(self, attr, value):   # Доступ извне
+                trace('set:', attr, value)     # Другие обрабатываются нормально
+                if attr == 'wrapped':        # Разрешить доступ к своим атрибутам (wrapped)
+                    self.__dict__[attr] = value         # Избежать зацикливания         
+                elif attr in privates:
+                    raise TypeError('private attrribute change: ' + attr)
+                else:
+                    setattr(self.wrapped, attr, value)   # Атрибуты обернутого объекта. Или можно исп. __dict__
+        return onInstance
+    return onDecorator
+
+if __name__ == '__main__':
+    traceMe = True
+    
+    @Private('data', 'size')     # Doubler = Private('data', 'size')(Doubler)
+    class Doubler:
+        def __init__(self, label, start):
+            self.label = label    # Доступ изнутри класса
+            self.data = start     # Не перехватываетсяЖ обрабатывается как обычно
+        def size(self):
+            return len(self.data)       # Методы выполняются без проверки, потому
+        def double(self):                # что ограничение доступа не наследуется
+            for i in range(self.size()):
+                self.data[i] = self.data[i] * 2
+        def display(self):
+            print('%s => %s' % (self.label, self.data))
+    
+    X = Doubler('X is', [1, 2, 3])
+    Y = Doubler('Y is', [-10, -20, -30])
+    
+    # Все следующие попытки оканчиваются успехом
+    
+    print(X.label)                        # Доступ извне класса
+    X.display(); X.double(); X.display()  # Перехватывается: проверяется, делегируется
+    print(Y.label)
+    Y.display(); Y.double()
+    Y.label = 'Spam'
+    Y.display()
+    
+    # Все следующие попытки терпят неудачу
+    '''
+    print(X.size())    # Выведет "TypeError: private attrribute fetch: size"
+    print(X.data)
+    X.data = [1, 1, 1]
+    X.size = lambda S: 0
+    print(Y.data)
+    print(Y.size())
+    '''
+
+# Вывод:
+[set: wrapped <__main__.Doubler object at 0x7ff6775050b8>]
+[set: wrapped <__main__.Doubler object at 0x7ff6775050f0>]
+[get: label]
+X is
+[get: display]
+X is => [1, 2, 3]
+[get: double]
+[get: display]
+X is => [2, 4, 6]
+[get: label]
+Y is
+[get: display]
+Y is => [-10, -20, -30]
+[get: double]
+[set: label Spam]
+[get: display]
+Spam => [-20, -40, -60]
+
+
+##################################################
+
+
