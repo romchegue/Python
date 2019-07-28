@@ -438,7 +438,7 @@ class tracer:
         self.func = func  # Сохраняет функцию для последующего вызова
     def __call__(self, *args, **kwargs):  # Вызывается при обращениях к оригинальной функции
         self.calls += 1
-        print("[TEST] tracer.__call__:", *args, **kwargs)
+        print("[TEST] tracer.__call__:", args, kwargs)
         print('call %s to %s' % (self.calls, self.func.__name__))
         return self.func(*args, **kwargs)        
     def __get__(self, instance, owner):     # Вызывается при обращении к атрибуту
@@ -450,7 +450,7 @@ class wrapper:
         self.desc = desc      # Делегирует вызов дескриптору
         self.subj = subj
     def __call__(self, *args, **kwargs):
-        print("[TEST] wrapper.__call__:", self, *args, **kwargs)
+        print("[TEST] wrapper.__call__:", self, args, kwargs)
         return self.desc(self.subj, *args, **kwargs)     # Вызовет tracer.__call__
 
 @tracer
