@@ -765,7 +765,7 @@ for i in (food, X, Z):
      
 
 @Tracer                             # will call __init__
-class Person:                       # Pesron = Tracer(Person)
+class Person:                       # Person = Tracer(Person)
     def __init__(self, name): 
         self.name = name
 
@@ -885,7 +885,7 @@ def Private(*privates):         # privates - в объемлющей облас�
                 if attr in privates:         # обернутому объекту
                     raise TypeError('private attrribute fetch: ' + attr)
                 else:
-                    return getattr(self.wrapped, attr)       # getatttr используется вместо __dict__ потому,
+                    return getattr(self.wrapped, attr)       # getattr используется вместо __dict__ потому,
                               # что атрибуты могут наследоваться от класса, а не только храниться в объекте
             def __setattr__(self, attr, value):   # Доступ извне
                 trace('set:', attr, value)     # Другие обрабатываются нормально
@@ -905,10 +905,10 @@ if __name__ == '__main__':
     class Doubler:
         def __init__(self, label, start):
             self.label = label    # Доступ изнутри класса
-            self.data = start     # Не перехватываетсяЖ обрабатывается как обычно
+            self.data = start     # Не перехватывается: обрабатывается как обычно
         def size(self):
             return len(self.data)       # Методы выполняются без проверки, потому
-        def double(self):                # что ограничение доступа не наследуется
+        def double(self):               # что ограничение доступа не наследуется
             for i in range(self.size()):
                 self.data[i] = self.data[i] * 2
         def display(self):
@@ -955,7 +955,94 @@ Y is => [-10, -20, -30]
 [get: display]
 Spam => [-20, -40, -60]
 
+##
+@private38.Private('attr1', 'attr2')
+class Test:
+    def __init__(self, label='', start='SPAM'):
+        self.label = label
+        self.attr1 = start
+    attr2 = 'Hello world!'
+
+X = Test('LABEL SPAM!', 'START SPAM!')    
+
 
 ##################################################
+#Декораторы Private и Public
+# file: access.py
+
+'''
+Декораторы Private и Public для объявления частных и общедоступных атрибутов.
+Управляют доступом к атрибутам, хранящимся в экземпляре или наследуемым
+от классов. Декоратор Private объявляет атрибуты, которые недоступны за
+пределами декорируемого класса, а декоратор Public объявляет все атрибуты,
+которые, наоборот, будут доступны. Внимание: в Python 3.0 эти декораторы
+оказывают воздействие только на атрибуты с обычными именами – вызовы методов
+перегрузки операторов с именами вида __X__, которые неявно производятся
+встроенными операциями, не перехватываются методами __getattr__ и __getattribute__
+в классах нового стиля.
+Добавьте здесь реализации методов вида __X__ и с их помощью делегируйте выполнение
+операций встроенным объектам.
+'''
+traceMe = False
+def trace(*args):
+    if traceMe: print('[' + ' '.join(map(str, args)) + ']')
+
+def accessControl(failIf):
+    def onDecorator(aClass):
+        class onInstance:
+            def __init__(self, *args, **kwargs):
+                self.__wrapped = aClass(*args, **kwargs)
+            def __getattr__(self, attr):
+                trace('get:', attr)
+                if failIf(attr):
+                    raise TypeError('private attribute fetch: ' + attr)
+                else:
+                    return getattr(self.__wrapped, attr)
+            def __setattr__(self, attr, value):
+                trace('set:', attr, value)
+                if attr == '_onInstance__wrapped':
+                    self.__dict__[attr] = value
+                elif failIf(attr):
+                    raise TypeError('private attribute change: ' + attr)
+                else:
+                    setattr(self.__wrapped, attr, value)
+        return onInstance
+    return onDecorator
+
+def Private(*attributes):
+    return accessControl(failIf=(lambda attr: attr in attributes))
+
+def Public(*attributes):
+    return accessControl(failIf=(lambda attr: attr not in attributes))
 
 
+# Check in interactive shell:
+from access import Private, Public
+@Private('age')       # Person = Private('age')(Person)
+class Person:         # Person = onInstance с информацией о состоянии 
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+X = Person('Bob', 40)
+X.name
+X.name = 'Sue'
+X.name
+X.age
+X.age = 1000
+
+@Public('name')       # Person = Public('age')(Person)
+class Person:         # Public = onInstance с информацией о состоянии 
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+X = Person('Bob', 40)
+X.name
+X.name = 'Sue'
+X.name
+X.age
+X.age = 1000
+
+
+##################################################
