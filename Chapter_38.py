@@ -1273,3 +1273,157 @@ code = func.__code__ if sys.version_info[0] == 3 else func.func_code
 def func(a, b, c, d=10):
     x = 1
     y = 2
+
+
+##################################################
+# Tasks at the end of Chapter 38. Task 1
+# file: mytools.py
+
+import time
+def timer(label='', trace=True):    # Arguments of the decorator saves
+    def onDecorator(func):          # At the stage of decoration
+        def onCall(*args, **kwargs):  # When called: the original is called    
+            start = time.time()
+            result = func(*args, **kwargs)
+            elapsed = time.time() - start
+            onCall.alltime += elapsed
+            if trace:
+                format = '{0} {1}: {2:.5f}, {3:.5f}'
+                values = (label, func.__name__, elapsed, onCall.alltime)
+                print(format.format(*values))
+            return result
+        onCall.alltime = 0            # Assignment na attribute 'alltime' to the outer scope of the function
+        return onCall
+    return onDecorator
+
+# Проверка: 
+@timer('==>')                         # listcomp = timer('==>')(listcomp)
+def listcomp(N):
+    return [x * 2 for x in range(N)]
+
+@timer('==>')
+def mapcall(N):
+    return list(map((lambda x: x * 2), range(N)))
+
+class Test:
+    def __init__(self, value, N):
+        self.value = value
+        self.N = N
+    @timer('**')
+    def method1(self):
+        self.value = [x * 2 for x in range(self.N)]
+        brief = self.value[:10]
+        brief.append('...')
+        print(brief)
+
+X = Test(None, 1000000)
+X.__dict__
+X.method1()
+X.method1.alltime
+Test.method1.alltime = 0
+
+
+##################################################
+# Tasks at the end of Chapter 38. Task 2
+#Декораторы Private и Public
+
+# file: access.py
+
+'''
+Декораторы Private и Public для объявления частных и общедоступных атрибутов.
+Управляют доступом к атрибутам, хранящимся в экземпляре или наследуемым
+от классов. Декоратор Private объявляет атрибуты, которые недоступны за
+пределами декорируемого класса, а декоратор Public объявляет все атрибуты,
+которые, наоборот, будут доступны. Внимание: в Python 3.0 эти декораторы
+оказывают воздействие только на атрибуты с обычными именами – вызовы методов
+перегрузки операторов с именами вида __X__, которые неявно производятся
+встроенными операциями, не перехватываются методами __getattr__ и __getattribute__
+в классах нового стиля.
+Добавьте здесь реализации методов вида __X__ и с их помощью делегируйте выполнение
+операций встроенным объектам.
+'''
+traceMe = False
+def trace(*args):
+    if traceMe: print('[' + ' '.join(map(str, args)) + ']')
+
+def accessControl(failIf):
+    def onDecorator(aClass):
+        if not __debug__:
+            return aClass
+        else:
+            class onInstance:
+                def __init__(self, *args, **kwargs):
+                    self.__wrapped = aClass(*args, **kwargs)
+                def __getattr__(self, attr):
+                    trace('get:', attr)
+                    if failIf(attr):
+                        raise TypeError('private attribute fetch: ' + attr)
+                    else:
+                        return getattr(self.__wrapped, attr)
+                def __setattr__(self, attr, value):
+                    trace('set:', attr, value)
+                    if attr == '_onInstance__wrapped':
+                        self.__dict__[attr] = value
+                    elif failIf(attr):
+                        raise TypeError('private attribute change: ' + attr)
+                    else:
+                        setattr(self.__wrapped, attr, value)
+            return onInstance
+    return onDecorator
+
+def Private(*attributes):
+    return accessControl(failIf=(lambda attr: attr in attributes))
+
+def Public(*attributes):
+    return accessControl(failIf=(lambda attr: attr not in attributes))
+
+
+if __name__ == '__main__':
+# Check in interactive shell:
+    
+    print('1. @Private TEST:')
+    @Private('age')       # Person = Private('age')(Person)
+    class Person:         # Person = onInstance с информацией о состоянии
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+    
+    X = Person('Bob', 40)
+    print(X)       # К какомй классу принадлежит X ? (при запуске 'python -O main.py' X = Person(...))
+    print(X.name)
+    X.name = 'Sue'
+    print(X.name)
+    try:
+        X.age
+    except TypeError:
+        print('[INFO] TypeError: private attribute fetch: age')
+    
+    try:
+        X.age = 1000
+    except TypeError:
+        print('[INFO] TypeError: private attribute change: age')
+    
+    print('\n2. @Public TEST:')
+    @Public('name')       # Person = Public('age')(Person)
+    class Person:         # Public = onInstance с информацией о состоянии
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+    
+    X = Person('Bob', 40)
+    print(X)       # К какомй классу принадлежит X ? (при запуске 'python -O main.py' X = Person(...))
+    print(X.name)
+    X.name = 'Sue'
+    print(X.name)
+    try:
+        X.age
+    except TypeError:
+        print('[INFO] TypeError: private attribute fetch: age')
+    
+    try:
+        X.age = 1000
+    except TypeError:
+        print('[INFO] TypeError: private attribute change: age')
+
+
+##################################################
