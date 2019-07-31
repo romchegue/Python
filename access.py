@@ -19,24 +19,27 @@ def trace(*args):
 
 def accessControl(failIf):
     def onDecorator(aClass):
-        class onInstance:
-            def __init__(self, *args, **kwargs):
-                self.__wrapped = aClass(*args, **kwargs)
-            def __getattr__(self, attr):
-                trace('get:', attr)
-                if failIf(attr):
-                    raise TypeError('private attribute fetch: ' + attr)
-                else:
-                    return getattr(self.__wrapped, attr)
-            def __setattr__(self, attr, value):
-                trace('set:', attr, value)
-                if attr == '_onInstance__wrapped':
-                    self.__dict__[attr] = value
-                elif failIf(attr):
-                    raise TypeError('private attribute change: ' + attr)
-                else:
-                    setattr(self.__wrapped, attr, value)
-        return onInstance
+        if not __debug__:
+            return aClass
+        else:
+            class onInstance:
+                def __init__(self, *args, **kwargs):
+                    self.__wrapped = aClass(*args, **kwargs)
+                def __getattr__(self, attr):
+                    trace('get:', attr)
+                    if failIf(attr):
+                        raise TypeError('private attribute fetch: ' + attr)
+                    else:
+                        return getattr(self.__wrapped, attr)
+                def __setattr__(self, attr, value):
+                    trace('set:', attr, value)
+                    if attr == '_onInstance__wrapped':
+                        self.__dict__[attr] = value
+                    elif failIf(attr):
+                        raise TypeError('private attribute change: ' + attr)
+                    else:
+                        setattr(self.__wrapped, attr, value)
+            return onInstance
     return onDecorator
 
 def Private(*attributes):
@@ -45,3 +48,50 @@ def Private(*attributes):
 def Public(*attributes):
     return accessControl(failIf=(lambda attr: attr not in attributes))
 
+
+if __name__ == '__main__':
+# Check in interactive shell:
+    
+    print('1. @Private TEST:')
+    @Private('age')       # Person = Private('age')(Person)
+    class Person:         # Person = onInstance с информацией о состоянии 
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+    
+    X = Person('Bob', 40)
+    print(X)       # К какомй классу принадлежит X ? (при запуске 'python -O main.py' X = Person(...))
+    print(X.name)
+    X.name = 'Sue'
+    print(X.name)
+    try:
+        X.age
+    except TypeError:
+        print('[INFO] TypeError: private attribute fetch: age')
+    
+    try:
+        X.age = 1000
+    except TypeError:
+        print('[INFO] TypeError: private attribute change: age')
+    
+    print('\n2. @Public TEST:')
+    @Public('name')       # Person = Public('age')(Person)
+    class Person:         # Public = onInstance с информацией о состоянии 
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+    
+    X = Person('Bob', 40)
+    print(X)       # К какомй классу принадлежит X ? (при запуске 'python -O main.py' X = Person(...))
+    print(X.name)
+    X.name = 'Sue'
+    print(X.name)
+    try:
+        X.age
+    except TypeError:
+        print('[INFO] TypeError: private attribute fetch: age')
+    
+    try:
+        X.age = 1000
+    except TypeError:
+        print('[INFO] TypeError: private attribute change: age')
