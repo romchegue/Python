@@ -1,9 +1,17 @@
 # file: mytools.py
+def tracer(func):          
+    calls = 0
+    def onCall(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        print('call %s to %s' % (calls, func.__name__))
+        return func(*args, **kwargs)
+    return onCall
 
 import time
-def timer(label='', trace=True):    # Arguments of the decorator saves
-    def onDecorator(func):          # At the stage of decoration
-        def onCall(*args, **kwargs):  # When called: the original is called    
+def timer(label='', trace=True):       # Arguments of the decorator saves
+    def onDecorator(func):             # At the stage of decoration
+        def onCall(*args, **kwargs):   # When called: the original is called
             start = time.time()
             result = func(*args, **kwargs)
             elapsed = time.time() - start
@@ -16,4 +24,3 @@ def timer(label='', trace=True):    # Arguments of the decorator saves
         onCall.alltime = 0            # Assignment na attribute 'alltime' to the outer scope of the function
         return onCall
     return onDecorator
-
