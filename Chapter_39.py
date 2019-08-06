@@ -456,6 +456,96 @@ print(bob.lastName(), sue.lastName())
 
 
 ##################################################
+# Фабрика метаклассов: применяет любой декоратор ко всем методам класса
 
-=======
->>>>>>> 99d1af0addf9492612c56d3bc323ee860cac8560
+from types import FunctionType
+from mytools import tracer, timer
+
+def decorateAll(decorator):
+    class MetaDecorate(type):
+        def __new__(meta, classname, supers, classdict):
+            for attr, attrvalue in classdict.items():
+                if type(attrvalue) is FunctionType:
+                    classdict[attr] = decorator(attrvalue)
+            return type.__new__(meta, classname, supers, classdict)
+    return MetaDecorate
+
+class Person(metaclass=decorateAll(tracer)):  # Применить произвольный декоратор
+    def __init__(self, name, pay):
+        self.name = name
+        self.pay = pay
+    def giveRaise(self, percent):
+        self.pay *= (1.0 + percent)
+    def lastName(self):
+        return self.name.split()[-1]
+
+bob = Person('Bob Smith', 50000)
+sue = Person('Sue Jones', 100000)
+print(bob.name, sue.name)
+sue.giveRaise(.10)
+print(sue.pay)
+print(bob.lastName(), sue.lastName())
+
+
+class Person(metaclass=decorateAll(timer(label='***'))):  # Применяет деократор timer, 
+    def __init__(self, name, pay):                        # с аргументами 
+        self.name = name
+        self.pay = pay
+    def giveRaise(self, percent):
+        self.pay *= (1.0 + percent)
+    def lastName(self):
+        return self.name.split()[-1]
+
+bob = Person('Bob Smith', 50000)
+sue = Person('Sue Jones', 100000)
+print(bob.name, sue.name)
+sue.giveRaise(.10)
+print(sue.pay)
+print(bob.lastName(), sue.lastName())
+# Если используется timer: общее время работы каждого метода
+print('-'*40)
+print('%.5f' % Person.__init__.alltime)
+print('%.5f' % Person.giveRaise.alltime)
+print('%.5f' % Person.lastName.alltime)
+
+
+##################################################
+# Фабрика декораторов классов: применяет любой декоратор ко всем методам класса
+
+from types import FunctionType
+from mytools import tracer, timer
+
+def decorateAll(decorator):
+    def DecoDecorate(aClass):
+        for attr, attrval in aClass.__dict__.items():
+            if type(attrval) is FunctionType:
+                setattr(aClass, attr, decorator(attrval))  # Не __dict__
+        return aClass
+    return DecoDecorate
+
+@decorateAll(tracer)                      # Используется декоратор класса
+class Person:                             # Применяет декоратор func к методам
+    def __init__(self, name, pay):        # Person = decorateAll(..)(Person)           
+        self.name = name                  # Person = DecoDecorate(Person)
+        self.pay = pay
+    def giveRaise(self, percent):
+        self.pay *= (1.0 + percent)
+    def lastName(self):
+        return self.name.split()[-1]
+
+bob = Person('Bob Smith', 50000)
+sue = Person('Sue Jones', 100000)
+print(bob.name, sue.name)
+sue.giveRaise(.10)
+print(sue.pay)
+print(bob.lastName(), sue.lastName())
+
+
+@decorateAll(tracer) # Декорирует все методы декоратором tracer
+@decorateAll(timer()) # Декорирует все методы декоратором timer со значениями
+# аргументов по умолчанию defaults
+@decorateAll(timer(label='@@')) # То же самое, но определяет
+# аргумент декоратора
+
+
+##################################################
