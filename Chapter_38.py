@@ -765,7 +765,7 @@ for i in (food, X, Z):
      
 
 @Tracer                             # will call __init__
-class Person:                       # Pesron = Tracer(Person)
+class Person:                       # Person = Tracer(Person)
     def __init__(self, name): 
         self.name = name
 
@@ -885,7 +885,7 @@ def Private(*privates):         # privates - в объемлющей облас�
                 if attr in privates:         # обернутому объекту
                     raise TypeError('private attrribute fetch: ' + attr)
                 else:
-                    return getattr(self.wrapped, attr)       # getatttr используется вместо __dict__ потому,
+                    return getattr(self.wrapped, attr)       # getattr используется вместо __dict__ потому,
                               # что атрибуты могут наследоваться от класса, а не только храниться в объекте
             def __setattr__(self, attr, value):   # Доступ извне
                 trace('set:', attr, value)     # Другие обрабатываются нормально
@@ -905,10 +905,10 @@ if __name__ == '__main__':
     class Doubler:
         def __init__(self, label, start):
             self.label = label    # Доступ изнутри класса
-            self.data = start     # Не перехватываетсяЖ обрабатывается как обычно
+            self.data = start     # Не перехватывается: обрабатывается как обычно
         def size(self):
             return len(self.data)       # Методы выполняются без проверки, потому
-        def double(self):                # что ограничение доступа не наследуется
+        def double(self):               # что ограничение доступа не наследуется
             for i in range(self.size()):
                 self.data[i] = self.data[i] * 2
         def display(self):
@@ -955,7 +955,475 @@ Y is => [-10, -20, -30]
 [get: display]
 Spam => [-20, -40, -60]
 
+##
+@private38.Private('attr1', 'attr2')
+class Test:
+    def __init__(self, label='', start='SPAM'):
+        self.label = label
+        self.attr1 = start
+    attr2 = 'Hello world!'
+
+X = Test('LABEL SPAM!', 'START SPAM!')    
+
 
 ##################################################
+#Декораторы Private и Public
+# file: access.py
+
+'''
+Декораторы Private и Public для объявления частных и общедоступных атрибутов.
+Управляют доступом к атрибутам, хранящимся в экземпляре или наследуемым
+от классов. Декоратор Private объявляет атрибуты, которые недоступны за
+пределами декорируемого класса, а декоратор Public объявляет все атрибуты,
+которые, наоборот, будут доступны. Внимание: в Python 3.0 эти декораторы
+оказывают воздействие только на атрибуты с обычными именами – вызовы методов
+перегрузки операторов с именами вида __X__, которые неявно производятся
+встроенными операциями, не перехватываются методами __getattr__ и __getattribute__
+в классах нового стиля.
+Добавьте здесь реализации методов вида __X__ и с их помощью делегируйте выполнение
+операций встроенным объектам.
+'''
+traceMe = False
+def trace(*args):
+    if traceMe: print('[' + ' '.join(map(str, args)) + ']')
+
+def accessControl(failIf):
+    def onDecorator(aClass):
+        class onInstance:
+            def __init__(self, *args, **kwargs):
+                self.__wrapped = aClass(*args, **kwargs)
+            def __getattr__(self, attr):
+                trace('get:', attr)
+                if failIf(attr):
+                    raise TypeError('private attribute fetch: ' + attr)
+                else:
+                    return getattr(self.__wrapped, attr)
+            def __setattr__(self, attr, value):
+                trace('set:', attr, value)
+                if attr == '_onInstance__wrapped':
+                    self.__dict__[attr] = value
+                elif failIf(attr):
+                    raise TypeError('private attribute change: ' + attr)
+                else:
+                    setattr(self.__wrapped, attr, value)
+        return onInstance
+    return onDecorator
+
+def Private(*attributes):
+    return accessControl(failIf=(lambda attr: attr in attributes))
+
+def Public(*attributes):
+    return accessControl(failIf=(lambda attr: attr not in attributes))
 
 
+# Check in interactive shell:
+from access import Private, Public
+@Private('age')       # Person = Private('age')(Person)
+class Person:         # Person = onInstance с информацией о состоянии 
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+X = Person('Bob', 40)
+X.name
+X.name = 'Sue'
+X.name
+X.age
+X.age = 1000
+
+@Public('name')       # Person = Public('age')(Person)
+class Person:         # Public = onInstance с информацией о состоянии 
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+X = Person('Bob', 40)
+X.name
+X.name = 'Sue'
+X.name
+X.age
+X.age = 1000
+
+
+##################################################
+traceMe = False
+def trace(*args):
+    if traceMe: print('[' + ' '.join(map(str, args)) + ']')
+
+def accessControl(failIf):
+    def onDecorator(aClass):
+        def getattributes(self, attr):
+            trace('get:', attr)
+            if failIf(attr):
+                raise TypeError('private attribute fetch: ' + attr)
+            else:
+                return object.__getattribute__(self, attr)
+        aClass.__getattribute__ = getattributes
+        return aClass
+    return onDecorator
+
+def Private(*attributes):
+    return accessControl(failIf=(lambda attr: attr in attributes))
+
+def Public(*attributes):
+    return accessControl(failIf=(lambda attr: attr not in attributes))
+
+
+##################################################
+# file: devtools.py
+
+def rangetest(*argchecks):    # Проеряет позиционные аругменты на вхождение
+    def onDecorator(func):    # в заданный диапазон
+        if not __debug__:     # True - если "python -0 main.py args..."
+            return func       # Ничего не выполняет: просто возвращает оригинальную функцию
+        else:                 # Иначе на этапе отладки возвращает обертку
+            def onCall(*args):
+                for (ix, low, high) in argchecks:
+                    if args[ix] < low or args[ix] > high:
+                        errmsg = 'Argument %s not in %s..%s' % (ix, low, high)
+                        raise TypeError(errmsg)
+                return func(*args)
+            return onCall
+    return onDecorator
+
+
+# file: devtools_test.py
+
+from devtools import rangetest
+print(__debug__)              # False, если "pyrhon -O main.py"
+
+@rangetest((1, 0, 120))         # persinfo = rangetest(...)persinfo
+def persinfo(name, age):        # Значение 1-го аругмента - age - должно быть в диапазоне 0..120
+    print('%s is %s years old' % (name, age))
+
+@rangetest([0, 1, 12], [1, 1, 31], [2, 0, 2009])
+def birthday(M, D, Y):
+    print('birthday = {0}/{1}/{2}'.format(M, D, Y))
+
+class Person:
+    def __init__(self, name, job, pay):
+        self.job = job
+        self.name = name
+        self.pay = pay
+    @rangetest([1, 0.0, 1.0])     # giveRaise = rangetest(...)(giveRaise)
+    def giveRaise(self, percent):
+        self.pay = int(self.pay * (1 + percent))
+
+# Закомментированные строки возбуждают исключение TypeError, если сценарий
+# не был запущен командой 'python -O'
+
+persinfo('Bob Smith', 45)    # В действительности вызывает onCall(...)
+#persinfo('Bob Smith', 200)  # или personinfo, если был использован аргумент -О 
+                             # командной строки
+birthday(5, 31, 1963)
+#birthday(5, 32, 1963)
+
+sue = Person('Sue Jones', 'dev', 100000)
+sue.giveRaise(0.10)         # В действительности вызывает onCall(self, 0.10)
+print(sue.pay)              # или giveRaise(self, 0.10), если использован -О
+sue.giveRaise(1.10)         # TypeError: Argument 1 not in 0.0..1.0
+print(sue.pay)
+
+
+##################################################
+# file: devtools.py
+
+'''
+Файл devtools.py: декоратор функций, выполняющий проверку аргументов на
+вхождение в заданный диапазон. Проверяемые аргументы передаются декоратору в
+виде именованных аргументов. В фактическом вызове функции аргументы могут
+передаваться как в виде позиционных, так и в виде именованных аргументов,
+при этом аргументы со значениями по умолчанию могут быть опущены.
+Примеры использования приводятся в файле devtools_test.py.
+'''
+
+trace = True
+
+def rangetest(**argchecks):   # Проверяемые аргументы с диапазонами
+    def onDecorator(func):    # onCall сохраняет func и argchecks
+        if not __debug__:     # True - если 'python -O main.py args...'
+            return func       # Обертывание только при отладке; иначе 
+        else:                 # возвращается оригинальная функция
+            import sys
+            code = func.__code__ if sys.version_info[0] == 3 else func.func_code
+            allargs = code.co_varnames[:code.co_argcount]
+            funcname = func.__name__
+            
+            def onCall(*pargs, **kargs):
+                # Все аргументы в кортеже pargs сопоставляются с первым N
+                # ожидаемыми аргументами по позиции 
+                # Остальные либо находятся в словаре kargs, либо опущены, как 
+                # аргументы со значениями по умолчанию
+                positionals = list(allargs)
+                positionals = positionals[:len(pargs)]
+                
+                for (argname, (low, high)) in argchecks.items():
+                    # Для всех аргументов, которые должны быть проверены
+                    if argname in kargs:
+                        # Аргумент был передан по имени
+                        if kargs[argname] < low or kargs[argname] > high:
+                            errmsg = '{0} argument "{1}" not in {2}..{3}'
+                            errmsg = errmsg.format(funcname, argname, low, high)
+                            raise TypeError(errmsg)
+                        
+                    elif argname in positionals:
+                        # Аргумент был передан по позиции
+                        position = positionals.index(argname)
+                        if pargs[position] < low or pargs[position] > high:
+                            errmsg = '{0} argument "{1}" not in {2}..{3}'
+                            errmsg = errmsg.format(funcname, argname, low, high)
+                            raise TypeError(errmsg)
+                        
+                    else:
+                        # Аргумент не был передан: предполагается, что он 
+                        # имеет значение по умолчанию
+                        if trace:
+                            print('Argument "{0}" dafaulted'.format(argname))
+                return func(*pargs, **kargs)              # ОК: вызвать оригинальную функцию
+            return onCall
+    return onDecorator
+
+
+##################################################
+# file: devtools_test.py
+
+# Закомментированные строки возбуждают исключение TypeError, если сценарий
+# не был запущен командой 'python -O'
+from devtools import rangetest
+
+# Тест вызовов функций с позиционными и именованными аргументами
+
+@rangetest(age=(0, 120))     # persinfo = rangetest(...)(persinfo)
+def persinfo(name, age):
+    print('%s is %s years old' % (name, age))
+
+@rangetest(M=(1, 12), D=(1, 31), Y=(0, 2009))
+def birthday(M, D, Y):
+    print('birthday = {0}/{1}/{2}'.format(M, D, Y))
+
+persinfo('Bob', 40)
+persinfo(age=40, name='Bob')
+birthday(5, D=1, Y=1963)
+#persinfo('Bob', 150)
+#persinfo(age=150, name='Bob')
+#birthday(5, D=40, Y=1963)
+
+# Тест вызовов методов с позиционными и именованными аргументами
+
+class Person:
+    def __init__(self, name, job, pay):
+        self.job = job
+        self.pay = pay
+                                # giveRaise = rangetest(...)(giveRaise)
+    @rangetest(percent=(0.0, 1.0)) # Аргумент percent передается по имени
+    def giveRaise(self, percent): # или по позиции
+        self.pay = int(self.pay * (1 + percent))
+
+bob = Person('Bob Smith', 'dev', 100000)
+sue = Person('Sue Jones', 'dev', 100000)
+bob.giveRaise(.10)
+sue.giveRaise(percent=.20)
+print(bob.pay, sue.pay)
+#bob.giveRaise(1.10)
+#bob.giveRaise(percent=1.20)
+
+# Тест вызовов функций с опущенными аргументами по умолчанию
+
+@rangetest(a=(1, 10), b=(1, 10), c=(1, 10), d=(1, 10))
+def omitargs(a, b=7, c=8, d=9):
+    print(a, b, c, d)
+
+omitargs(1, 2, 3, 4)
+omitargs(1, 2, 3)
+omitargs(1, 2, 3, d=4)
+omitargs(1, d=4)
+omitargs(d=4, a=1)
+omitargs(1, b=2, d=4)
+omitargs(d=8, c=7, a=1)
+#omitargs(1, 2, 3, 11)    # Недопустимое значение аргумента d
+#omitargs(1, 2, 11)       # Недопустимое значение аргумента c
+#omitargs(1, 2, 3, d=11)  # Недопустимое значение аргумента d
+#omitargs(11, d=4)        # Недопустимое значение аргумента a
+#omitargs(d=4, a=11)      # Недопустимое значение аргумента a
+#omitargs(1, b=11, d=4)   # Недопустимое значение аргумента b
+#omitargs(d=8, c=7, a=11) # Недопустимое значение аргумента a
+
+
+##################################################
+def func(a, b, c, d):
+    x = 1
+    y = 2
+
+code = func.__code__
+code
+<code object func at 0x7f6f52b930c0, file "<stdin>", line 1>
+code.co_nlocals
+6
+code.co_varnames
+('a', 'b', 'c', 'd', 'x', 'y')
+code.co_varnames[:code.co_argcount]
+('a', 'b', 'c', 'd')
+import sys
+sys.version_info
+sys.version_info(major=3, minor=6, micro=6, releaselevel='final', serial=0)
+list(sys.version_info)
+[3, 6, 6, 'final', 0]
+code = func.__code__ if sys.version_info[0] == 3 else func.func_code
+
+def func(a, b, c, d=10):
+    x = 1
+    y = 2
+
+
+##################################################
+# Tasks at the end of Chapter 38. Task 1
+# file: mytools.py
+
+import time
+def timer(label='', trace=True):    # Arguments of the decorator saves
+    def onDecorator(func):          # At the stage of decoration
+        def onCall(*args, **kwargs):  # When called: the original is called    
+            start = time.time()
+            result = func(*args, **kwargs)
+            elapsed = time.time() - start
+            onCall.alltime += elapsed
+            if trace:
+                format = '{0} {1}: {2:.5f}, {3:.5f}'
+                values = (label, func.__name__, elapsed, onCall.alltime)
+                print(format.format(*values))
+            return result
+        onCall.alltime = 0            # Assignment na attribute 'alltime' to the outer scope of the function
+        return onCall
+    return onDecorator
+
+# Проверка: 
+@timer('==>')                         # listcomp = timer('==>')(listcomp)
+def listcomp(N):
+    return [x * 2 for x in range(N)]
+
+@timer('==>')
+def mapcall(N):
+    return list(map((lambda x: x * 2), range(N)))
+
+class Test:
+    def __init__(self, value, N):
+        self.value = value
+        self.N = N
+    @timer('**')
+    def method1(self):
+        self.value = [x * 2 for x in range(self.N)]
+        brief = self.value[:10]
+        brief.append('...')
+        print(brief)
+
+X = Test(None, 1000000)
+X.__dict__
+X.method1()
+X.method1.alltime
+Test.method1.alltime = 0
+
+
+##################################################
+# Tasks at the end of Chapter 38. Task 2
+#Декораторы Private и Public
+
+# file: access.py
+
+'''
+Декораторы Private и Public для объявления частных и общедоступных атрибутов.
+Управляют доступом к атрибутам, хранящимся в экземпляре или наследуемым
+от классов. Декоратор Private объявляет атрибуты, которые недоступны за
+пределами декорируемого класса, а декоратор Public объявляет все атрибуты,
+которые, наоборот, будут доступны. Внимание: в Python 3.0 эти декораторы
+оказывают воздействие только на атрибуты с обычными именами – вызовы методов
+перегрузки операторов с именами вида __X__, которые неявно производятся
+встроенными операциями, не перехватываются методами __getattr__ и __getattribute__
+в классах нового стиля.
+Добавьте здесь реализации методов вида __X__ и с их помощью делегируйте выполнение
+операций встроенным объектам.
+'''
+traceMe = False
+def trace(*args):
+    if traceMe: print('[' + ' '.join(map(str, args)) + ']')
+
+def accessControl(failIf):
+    def onDecorator(aClass):
+        if not __debug__:
+            return aClass
+        else:
+            class onInstance:
+                def __init__(self, *args, **kwargs):
+                    self.__wrapped = aClass(*args, **kwargs)
+                def __getattr__(self, attr):
+                    trace('get:', attr)
+                    if failIf(attr):
+                        raise TypeError('private attribute fetch: ' + attr)
+                    else:
+                        return getattr(self.__wrapped, attr)
+                def __setattr__(self, attr, value):
+                    trace('set:', attr, value)
+                    if attr == '_onInstance__wrapped':
+                        self.__dict__[attr] = value
+                    elif failIf(attr):
+                        raise TypeError('private attribute change: ' + attr)
+                    else:
+                        setattr(self.__wrapped, attr, value)
+            return onInstance
+    return onDecorator
+
+def Private(*attributes):
+    return accessControl(failIf=(lambda attr: attr in attributes))
+
+def Public(*attributes):
+    return accessControl(failIf=(lambda attr: attr not in attributes))
+
+
+if __name__ == '__main__':
+# Check in interactive shell:
+    
+    print('1. @Private TEST:')
+    @Private('age')       # Person = Private('age')(Person)
+    class Person:         # Person = onInstance с информацией о состоянии
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+    
+    X = Person('Bob', 40)
+    print(X)       # К какомй классу принадлежит X ? (при запуске 'python -O main.py' X = Person(...))
+    print(X.name)
+    X.name = 'Sue'
+    print(X.name)
+    try:
+        X.age
+    except TypeError:
+        print('[INFO] TypeError: private attribute fetch: age')
+    
+    try:
+        X.age = 1000
+    except TypeError:
+        print('[INFO] TypeError: private attribute change: age')
+    
+    print('\n2. @Public TEST:')
+    @Public('name')       # Person = Public('age')(Person)
+    class Person:         # Public = onInstance с информацией о состоянии
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+    
+    X = Person('Bob', 40)
+    print(X)       # К какомй классу принадлежит X ? (при запуске 'python -O main.py' X = Person(...))
+    print(X.name)
+    X.name = 'Sue'
+    print(X.name)
+    try:
+        X.age
+    except TypeError:
+        print('[INFO] TypeError: private attribute fetch: age')
+    
+    try:
+        X.age = 1000
+    except TypeError:
+        print('[INFO] TypeError: private attribute change: age')
+
+
+##################################################
